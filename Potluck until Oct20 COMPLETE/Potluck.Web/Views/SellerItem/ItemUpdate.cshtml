@@ -1,0 +1,148 @@
+﻿@model Potluck.Web.Models.ItemDTO
+
+@{
+    ViewData["Title"] = "ItemUpdate";
+}
+
+@{ 
+    List<Category> categories = ViewBag.Categories;
+}
+
+    <style>
+        .form-group {
+            margin: 3vh 3vw;
+        }
+        #imagePreview {
+            float: right;
+        }
+        form {
+            margin-top: 0;
+        }
+        .btn {
+            border-radius: 25px;
+            width: 16vw;
+            margin: 0 4vw 2vh 1vw;
+        }
+        input {
+            text-align: center;
+        }
+        .control-label {
+            margin: 1vh 0 1vh 0vh;
+            padding: 1vh 0;
+        }
+        th label{
+            color: #F42E56;
+        }
+    </style>
+
+    <div class="container">
+        <h3 class="center Radical-Red-Text" style="font-size:3rem;font-family:Arial, Helvetica, sans-serif;font-weight:bold;font-size:2.85rem;margin:70px 0 50px 0;padding-left:3vw;">Update Item</h3>
+        <div class="card-panel z-depth-5 ">
+            <div class="col-md-4">
+                <form asp-action="UpdateItem" class="form-horizontal">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="itemId" class="form-control" value="@Model.itemId" hidden/>
+                    <table>
+                        <tr>
+                            <th><label asp-for="name" class="control-label">NAME:</label></th>
+                            <td colspan="3">
+                                <input asp-for="name" class="form-control" placeholder="Name" />
+                                <span asp-validation-for="name" class="text-danger"></span>
+                            </td>
+                            <th style="padding-left:4vw;"><label asp-for="price" class="control-label">PRICE:</label></th>
+                            <td colspan="2">
+                                <input asp-for="price" class="form-control" />
+                                <span asp-validation-for="price" class="text-danger"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><label asp-for="description" class="control-label">DESCRIPTION:</label></th>
+                            <td colspan="6">
+                                <input asp-for="description" class="form-control" placeholder="Description" />
+                                <span asp-validation-for="description" class="text-danger"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><label asp-for="calories" class="control-label">CALORIES:</label></th>
+                            <td colspan="2">
+                                <input asp-for="calories" class="form-control" placeholder="Calories" />
+                                <span asp-validation-for="calories" class="text-danger"></span>
+                            </td>
+                            <th><label asp-for="category" class="control-label">CATEGORY:</label></th>
+                            <td colspan="3">
+                                <select asp-for="category.id">
+                                    @foreach (Category category in categories)
+                                    {
+                                        if (Model.category.id == category.id)
+                                        {
+                                            <option selected value="@category.id">@category.name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@category.id">@category.name</option>
+                                        }
+                                    }
+                                </select>
+                                <span asp-validation-for="category.id" class="text-danger"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label asp-for="itemId" class="control-label">ITEM ID:</label>
+                            </th>
+                            <td>
+                                <input asp-for="itemId" class="form-control" disabled />
+                                <span asp-validation-for="itemId" class="text-danger"></span>
+                            </td>
+                            <th style="padding-left:4vw;"><label asp-for="enable">ENABLED:</label></th>
+                            <td colspan="2">
+                                <label>
+                                    @if (Model.enable)
+                                    {
+                                        <input class="Radical-Red-Text" asp-for="enable" type="checkbox" checked />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="enable" type="checkbox" />
+                                    }
+                                    <span></span>
+                               </label>
+                            </td>
+                            <th style="padding-left:4vw;"><label asp-for="enable">SOLD ALONE:</label></th>
+                            <td>
+                                <label>
+                                    @if (Model.soldAlone)
+                                    {
+                                        <input class="Radical-Red-Text" asp-for="soldAlone" type="checkbox" checked />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="soldAlone" type="checkbox" />
+                                    }
+                                    <span></span>
+                                </label>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="form-group row">
+                        <br />
+                        <input id="picture" asp-for="imageUrl" class="form-control" hidden />
+                        <input type="file" onchange="handleImageFile(readResult)"><br>
+                        <span asp-validation-for="imageUrl" class="text-danger"></span>
+                        @if (Model.imageUrl != null)
+                        {
+                            <img id="imagePreview" src="@Model.imageUrl" height="200" alt="Image preview...">
+                        }
+                        else
+                        {
+                            <img id="imagePreview" src="~/images/no-camera.png" height="200" alt="Image preview...">
+                        }
+                    </div>
+                    <div class="form-group row">
+                        <input type="submit" value="Update" class="btn btn-default Radical-Red" />
+                        <a class="btn btn-default Radical-Red" asp-action="Index">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

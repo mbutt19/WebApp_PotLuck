@@ -1,0 +1,153 @@
+﻿@model Potluck.Web.Models.PageOfOrders
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .z-depth-5 {
+        margin: 10vh 12vw;
+        border-radius: 25px;
+        min-height: 20vh;
+        min-width: 20vw;
+        text-align: center
+    }
+
+    .priced {
+        float: right;
+        padding-top: 7vh;
+        margin-bottom: 0;
+        font-style: italic;
+        font-weight: 500;
+    }
+
+    .openClose {
+        width: 90%;
+        margin: 5vh auto;
+    }
+</style>
+
+<div class="container">
+    <h3 class="center Radical-Red-Text" style="font-family:Arial, Helvetica, sans-serif;font-weight:bold;font-size:2.85rem;margin:30px 0 50px 0;padding-left:3vw;">My Orders</h3>
+    <div class="row card-panel itemCard">
+
+        <form class="row openClose" asp-action="ShowAllOrdersOfStatus" id="statusSelect">
+            <div class="col s10">
+                <select class="select-dropdown" name="status">
+                    <option value="" selected disabled hidden>Choose Order Status</option>
+                    <option value="OPENED">OPENED</option>
+                    <option value="CLOSED">CLOSED</option>
+                    <option value="CANCELED">CANCELED</option>
+                </select>
+            </div>
+            <div class="col s2">
+                <a onclick="document.getElementById('statusSelect').submit(); return false;"><i class="small material-icons Radical-Red white-text" style="cursor: pointer;border: 1px solid #F42E56;padding: 1vh 1vw;border-radius:25px;">search</i></a>
+            </div>
+        </form>
+        <h3 class="center Radical-Red-Text" style="font-family:Arial, Helvetica, sans-serif;font-weight:bold;font-size:1.85rem;margin:30px 0 30px 0;padding-left:3vw;"><b>@ViewBag.OrderStatus</b></h3>
+
+        @if (Model.content.Count > 0)
+        {
+            @foreach (var item in Model.content)
+            {
+                <a asp-controller="SellerOrder" asp-action="ShowOrder" asp-route-orderId="@item.orderId" asp-route-currentStatus="@ViewBag.OrderStatus">
+                    <div class="col s3 card-panel itemCard z-depth-2 hoverable" style=" margin-left: 5vw;">
+                        @if (item.ordersItems.Count > 0)
+                        {
+                            <div class="row deets">
+                                <div class="col s12 ">
+                                    <div class="row" style="color:black;padding:1vh 1vw;">
+                                        <!--Name-->
+                                        <h6 class="Radical-Red white-text center-align" style="font-weight:500;font-size:large;margin-top:0">@item.ordersItems.ElementAt(0).item.name</h6>
+                                        <!--Price-->
+                                        <p class="priced grey-text"><b>@item.total.ToString("C")</b></p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row deets">
+                                <div class="col s12 ">
+                                    <div class="row" style="color:black;padding:1vh 1vw;">
+                                        <!--Name-->
+                                        <h6 class="Radical-Red white-text center-align" style="font-weight:500;font-size:large;margin-top:0">Empty Order</h6>
+                                        <!--Price-->
+                                        <p class="priced grey-text"><b>EMPTY ORDER</b></p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </a>
+            }
+        }
+
+        <div class="col s12 center">
+            @if (Model.first && Model.last)
+            {
+                <ul class="pagination">
+                    <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_left</i></a></li>
+                    <li class="active"><a asp-action="ShowAllOrdersOfStatus" asp-route-status="@ViewBag.OrderStatus" asp-route-page="0">1</a></li>
+                    <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_right</i></a></li>
+                </ul>
+            }
+            else if (Model.first)
+            {
+                <ul class="pagination">
+                    <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_left</i></a></li>
+                    @for (int i = 0; i < Model.totalPages; i++)
+                    {
+                        @if (i == Model.pageable.pageNumber)
+                        {
+                            <li class="active"><b><a class="white red-text" asp-action="ShowAllOrdersOfStatus" asp-route-status="@ViewBag.OrderStatus" asp-route-page="@i">@(i+1)</a></b></li>
+                        }
+                        else
+                        {
+                            <li class="active"><a asp-action="ShowAllOrdersOfStatus" asp-route-status="@ViewBag.OrderStatus" asp-route-page="@i">@(i+1)</a></li>
+                        }
+                    }
+                    <li class="active"><a asp-action="ShowAllOrdersOfStatus" asp-route-status="@ViewBag.OrderStatus" asp-route-page="@(Model.pageable.pageNumber+1)"><i class="material-icons">chevron_right</i></a></li>
+                </ul>
+            }
+            else if (Model.last)
+            {
+                <ul class="pagination">
+                    <li class="active"><a asp-action="ShowAllOrdersOfStatus" asp-route-status="@ViewBag.OrderStatus" asp-route-page="@(Model.pageable.pageNumber-1)"><i class="material-icons">chevron_left</i></a></li>
+                    @for (int i = 0; i < Model.totalPages; i++)
+                    {
+                        @if (i == Model.pageable.pageNumber)
+                        {
+                            <li class="active"><b><a class="white red-text" asp-action="ShowAllOrdersOfStatus" asp-route-status="@ViewBag.OrderStatus" asp-route-page="@i">@(i+1)</a></b></li>
+                        }
+                        else
+                        {
+                            <li class="active"><a asp-action="ShowAllOrdersOfStatus" asp-route-status="@ViewBag.OrderStatus" asp-route-page="@i">@(i+1)</a></li>
+                        }
+                    }
+                    <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_right</i></a></li>
+                </ul>
+            }
+            else if (!Model.first && !Model.last)
+            {
+                <ul class="pagination">
+                    <li class="active"><a asp-action="ShowAllOrdersOfStatus" asp-route-status="@ViewBag.OrderStatus" asp-route-page="@(Model.pageable.pageNumber-1)"><i class="material-icons">chevron_left</i></a></li>
+
+                    @for (int i = 0; i < Model.totalPages; i++)
+                    {
+                        @if (i == Model.pageable.pageNumber)
+                        {
+                            <li class="active"><b><a class="white red-text" asp-action="ShowAllOrdersOfStatus" asp-route-status="@ViewBag.OrderStatus" asp-route-page="@i">@(i+1)</a></b></li>
+                        }
+                        else
+                        {
+                            <li class="active"><a asp-action="ShowAllOrdersOfStatus" asp-route-status="@ViewBag.OrderStatus" asp-route-page="@i">@(i+1)</a></li>
+                        }
+
+                    }
+                    <li class="active"><a asp-action="ShowAllOrdersOfStatus" asp-route-status="@ViewBag.OrderStatus" asp-route-page="@(Model.pageable.pageNumber+1)"><i class="material-icons">chevron_right</i></a></li>
+                </ul>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,134 @@
+﻿@model Potluck.Web.Models.PageOfItems
+
+@{
+    ViewData["Title"] = "Search";
+
+}
+<style>
+    .hoverable {
+        margin: 3vh 3vw;
+        min-height: 60vh;
+    }
+    .deets {
+        min-height: 30vh;
+        max-height: 30vh;
+    }
+    .pix {
+        min-height: 30vh;
+        max-height: 30vh;
+    }
+    .pagination {
+        margin: 5vh 3vw;
+    }
+</style>
+
+<h3 class="center Radical-Red-Text" style="font-size:3rem;font-family:Arial, Helvetica, sans-serif;font-weight:bold;font-size:2.85rem;margin:70px 0 50px 0;padding-left:3vw;">Results for @ViewBag.Searched</h3>
+<div class="row" style="margin-bottom:20vh;">
+    @if (ViewBag.Searched is null)
+    {
+        <div class="col s3 card-panel itemCard z-depth-5 hoverable" style=" margin-left: 5vw;">
+            <div class="row center-align pix">
+                <img src="~/images/no-camera.png" style="height:20vh;max-width:100%;border-top-left-radius:18px;border-top-right-radius:18px;zoom:1.5;overflow:hidden" />
+                <h4 class="center Radical-Red-Text">Empty Search!</h4>
+            </div>
+        </div>
+    }
+    else if (Model.empty.Equals(true))
+    {
+        <div class="col s3 card-panel itemCard z-depth-5 hoverable" style=" margin-left: 5vw;">
+            <div class="row center-align pix">
+                <img src="~/images/no-camera.png" style="height:20vh;max-width:100%;border-top-left-radius:18px;border-top-right-radius:18px;zoom:1.5;overflow:hidden" />
+                <h4 class="center Radical-Red-Text">No Results!</h4>
+            </div>
+        </div>
+    }
+    else
+    {
+        @foreach (var item in Model.content)
+        {
+            <a asp-controller="BuyerItem" asp-action="ShowItemDetails" asp-route-itemId="@item.itemId">
+                <div class="col s3 card-panel itemCard z-depth-5 hoverable" style=" margin-left: 5vw;">
+                    <div class="row center-align pix">
+                        <!--Image-->
+                        @if (item.imageUrl == null)
+                        {
+                            <img src="~/images/no-camera.png" style="height:20vh;max-width:100%;border-top-left-radius:18px;border-top-right-radius:18px;zoom:1.5;overflow:hidden" />
+                        }
+                        else
+                        {
+                            <img src="@item.imageUrl" style="height:80%;width:80%;margin:auto;max-width:90%;max-height:18vh;margin:1vh;zoom:1.68;overflow:hidden;margin-bottom:1.7vh;" />
+                        }
+                    </div>
+                    <div class="row deets">
+                        <div class="col s9 push-s1">
+                            <div class="row" style="color:black;padding-left:7px;">
+                                <!--Name-->
+                                <h6 style="font-weight:500;font-size:large;margin-top:0" ;>@item.name</h6>
+                                <!--Description-->
+                                <p class="grey-text lighten-3" style="font-size:small">@item.description</p>
+                                <!--Price-->
+                                <p class="Radical-Red-Text"><b>$@Html.DisplayFor(modelItem => item.price)</b></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        }
+    }
+</div>
+
+@if (Model.first && Model.last)
+{
+    <ul class="pagination">
+        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+        <li class="active"><a asp-action="ShowSearchPageByNumber" asp-route-searchVal="@ViewBag.Searched" asp-route-pageNumber="0">1</a></li>
+        <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+    </ul>
+}
+else if (Model.first)
+{
+    <ul class="pagination">
+        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+        @for (int i = 0; i < Model.totalPages; i++)
+        {
+            <li class="active"><a asp-action="ShowSearchPageByNumber" asp-route-searchVal="@ViewBag.Searched" asp-route-pageNumber="@i">@(i+1)</a></li>
+        }
+        <li class="active"><a asp-action="ShowSearchPageByNumber" asp-route-searchVal="@ViewBag.Searched" asp-route-pageNumber="@(Model.pageable.pageNumber+1)"><i class="material-icons">chevron_right</i></a></li>
+    </ul>
+}
+else if (Model.last)
+{
+    <ul class="pagination">
+        <li class="active"><a asp-action="ShowSearchPageByNumber" asp-route-searchVal="@ViewBag.Searched" asp-route-pageNumber="@(Model.pageable.pageNumber-1)"><i class="material-icons">chevron_left</i></a></li>
+        @for (int i = 0; i < Model.totalPages; i++)
+        {
+            <li class="active"><a asp-action="ShowSearchPageByNumber" asp-route-searchVal="@ViewBag.Searched" asp-route-pageNumber="@i">@(i+1)</a></li>
+        }
+        <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+    </ul>
+}
+else if (!Model.first && !Model.last)
+{
+    <ul class="pagination">
+        @if (ViewBag.Searched is null)
+        {
+
+        }
+        else
+        {
+            <li class="active"><a asp-action="ShowSearchPageByNumber" asp-route-searchVal="@ViewBag.Searched" asp-route-pageNumber="@(Model.pageable.pageNumber-1)"><i class="material-icons">chevron_left</i></a></li>
+        }
+        @for (int i = 0; i < Model.totalPages; i++)
+        {
+            <li class="active"><a asp-action="ShowSearchPageByNumber" asp-route-searchVal="@ViewBag.Searched" asp-route-pageNumber="@i">@(i+1)</a></li>
+        }
+        @if (ViewBag.Searched is null)
+        {
+
+        }
+        else
+        {
+            <li class="active"><a asp-action="ShowSearchPageByNumber" asp-route-searchVal="@ViewBag.Searched" asp-route-pageNumber="@(Model.pageable.pageNumber+1)"><i class="material-icons">chevron_right</i></a></li>
+        }
+    </ul>
+}

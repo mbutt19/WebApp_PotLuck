@@ -1,0 +1,103 @@
+﻿@model Potluck.Web.Models.ScheduleCreate
+
+@{
+    ViewData["Title"] = "ScheduleCreate";
+}
+
+@{
+    Dictionary<string, string> daysOfWeek = new Dictionary<string, string>();
+
+    daysOfWeek.Add("EVERYDAY", "Everyday");
+    daysOfWeek.Add("SUNDAY", "Sunday");
+    daysOfWeek.Add("MONDAY", "Monday");
+    daysOfWeek.Add("TUESDAY", "Tuesday");
+    daysOfWeek.Add("WEDNESDAY", "Wednesday");
+    daysOfWeek.Add("THURSDAY", "Thursday");
+    daysOfWeek.Add("FRIDAY", "Friday");
+    daysOfWeek.Add("SATURDAY", "Saturday");
+
+    List<ItemDTO> userItems = ViewBag.Items;
+}
+
+<style>
+    .card-panel {
+        border: 5px solid #F42E56;
+    }
+    hr {
+        margin-bottom: 2vh;
+        border-bottom-color: #F42E56;
+    }
+</style>
+<div class="container">
+    <h2 class="center Radical-Red-Text"><b>Create a Schedule</b></h2>
+    
+    <div class="row center-align">
+        <div class="col s6 card-panel z-depth-2 push-s3 center">
+            <h4 class="grey-text">Start by designating a time,</h4>
+            <h4 class="grey-text">and Select the first item.</h4>
+            <hr />
+            <form asp-controller="SellerSchedule" asp-action="CreateSchedule">
+                <input hidden asp-for="scheduleId" value="0" />
+                <div class="row valign-wrapper">
+                    <div class="col s2">
+                        Day:
+                    </div>
+                    <div class="col s10">
+                        <select asp-for="dayOfWeek">
+                            @foreach (var day in daysOfWeek)
+                            {
+                                if (Model.dayOfWeek == day.Key)
+                                {
+                                    <option selected value="@day.Key">@day.Value</option>
+                                }
+                                else
+                                {
+                                    <option value="@day.Key">@day.Value</option>
+                                }
+
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row valign-wrapper">
+                    <div class="col s2">
+                        Start:
+                    </div>
+                    <div class="col s10">
+                        <input required asp-for="timeFrom" type="time" value="@Model.timeFrom" />
+                    </div>
+                </div>
+                <div class="row valign-wrapper">
+                    <div class="col s2">
+                        End:
+                    </div>
+                    <div class="col s10">
+                        <input required asp-for="timeTo" type="time" value="@Model.timeTo" />
+                    </div>
+                </div>
+                <div class="row valign-wrapper">
+                    <div class="col s2">
+                        Starting Item:
+                    </div>
+                    <div class="col s10">
+                        <select asp-for="itemId">
+                            @foreach (ItemDTO item in userItems)
+                            {
+                                <option value="@item.itemId">@item.name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <input type="submit" value="Create" class="btn btn-default Radical-Red" />
+                    <a class="btn btn-primary Radical-Red" asp-action="Index">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @*<div>
+        <a asp-action="Index">Back to List</a>
+    </div>*@
+
+</div>

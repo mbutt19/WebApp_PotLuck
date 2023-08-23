@@ -1,0 +1,50 @@
+﻿@model Potluck.Web.Models.ReviewVO
+
+@{
+    ViewData["Title"] = "ReviewCreate";
+    UserDTO seller = ViewBag.seller;
+}
+
+
+
+<h2>Leave A Review For @seller.name</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Review" asp-action="CreateReview">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input hidden asp-for="sellerEmail" class="form-control" />
+            <input hidden asp-for="reviewId" class="form-control" />
+            <div class="form-group">
+                <label asp-for="subject" class="control-label"></label>
+                <input asp-for="subject" class="form-control" />
+                <span asp-validation-for="subject" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="message" class="control-label"></label>
+                <input asp-for="message" class="form-control" />
+                <span asp-validation-for="message" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="stars" class="control-label"></label>
+                <select asp-for="stars" class="form-control">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <span asp-validation-for="stars" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit Review" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

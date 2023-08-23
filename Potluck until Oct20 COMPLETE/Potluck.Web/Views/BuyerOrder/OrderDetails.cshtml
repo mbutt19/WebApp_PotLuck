@@ -1,0 +1,101 @@
+﻿@model Potluck.Web.Models.OrderDTO
+
+@{
+    ViewData["Title"] = "OrderDetails";
+}
+
+<style>
+    .table th {
+        width: 30%;
+    }
+    .btns {
+        margin: 0 auto;
+        width: 100%;
+    }
+</style>
+<div class="container">
+    <h3 class="center Radical-Red-Text" style="font-family:Arial, Helvetica, sans-serif;font-weight:bold;font-size:2.85rem;margin:70px 0 50px 0;padding-left:3vw;">Order Details</h3>
+    <div class="row card-panel z-depth-5">
+        <div class="row center-align">
+            <div>
+                <h4 class="center Radical-Red-Text">Order</h4>
+                <hr />
+                <table>
+                    <tr>
+                        <th class="Radical-Red-Text"><b>Order Date</b></th>
+                        <td>@Html.DisplayFor(model => model.dateTimeCreated)</td>
+                        <th class="Radical-Red-Text"><b>Order ID</b></th>
+                        <td>@Html.DisplayFor(model => model.orderId)</td>
+                    </tr>
+                    <tr>
+                        <th class="Radical-Red-Text"><b>Order Status</b></th>
+                        <td>@Html.DisplayFor(model => model.orderStatus)</td>
+                        <th class="Radical-Red-Text"><b>Delivery Type</b></th>
+                    </tr>
+                </table>
+            </div>
+            @if (Model.ordersItems != null)
+            {
+                @foreach (OrdersItemDTO ordersItem in Model.ordersItems)
+                {
+                    <div class="row card-panel z-depth-1">
+                        <table class=" grey lighten-4">
+                            <tr class="Radical-Red white-text">
+                                <th style="border-radius:0;padding-left:5vw;"><b>@ordersItem.item.name.ToUpper()</b></th>
+                                <th style="border-radius:0;" class="center"></th>
+                                <th style="border-radius:0;">x @ordersItem.quantity</th>
+                                <th style="border-radius:0;">
+                                    <a onclick="RemoveItemFromOrder(@ordersItem.ordersItemsId)">
+                                        <i class="mall material-icons right white" style="cursor: pointer;">clear</i>
+                                    </a>
+                                </th>
+                            </tr>
+                            <tr style="border-bottom:none;">
+                                <td class="Radical-Red-Text" style="padding-left:5vw;"><i><b>Description:</b></i></td>
+                                <td class="grey-text lighten-1">@ordersItem.item.description</td>
+                                <td class="grey-text lighten-1 left">@ordersItem.item.price.ToString("C")</td>
+                                <td></td>
+                            </tr>
+                            <tr class="Radical-Red-Text" style="border-bottom:none;">
+                                <td colspan="4" style="padding-left:15vw;"><b><i>Add Ons:</i></b></td>
+                            </tr>
+                            @foreach (OrdersItemsCustomDTO custom in ordersItem.ordersItemsCustoms)
+                            {
+                                @foreach (OrderSubItemDTO subItem in custom.subitems)
+                                {
+                                    <tr style="border-bottom:none;">
+                                        <td></td>
+                                        <td class="grey-text">@subItem.name</td>
+                                        <td class="grey-text left">@subItem.price.ToString("C")</td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+                }
+            }
+        </div>
+        <div class="row btns">
+            @if (Model.orderStatus == "OPENED")
+            {
+                <div class="container">
+                    <a style="border-radius:25px;background-color:#F42E56;height:8vh;margin:6vh 1vw;padding-top:1vh;width:12.3vw;" class="btn waves-effect waves-light col s3 hoverable" asp-action="ShowCheckout" asp-route-orderId="@Model.orderId">Checkout  <i class="small material-icons" style="padding-left: 1vw;">shopping_cart</i></a>
+                    <a style="border-radius:25px;background-color:#F42E56;height:8vh;margin:6vh 1vw;padding-top:1vh;width:11vw;" class="btn waves-effect waves-light col s3 hoverable" asp-action="CancelOrder" asp-route-orderId="@Model.orderId">Cancel</a>
+                    <a style="border-radius:25px;background-color:#F42E56;height:8vh;margin:6vh 1vw;padding-top:1vh;width:11vw;" class="btn waves-effect waves-light col s3 hoverable" asp-action="GetPageOfOrders" asp-route-status="@ViewBag.OrderStatus">Back</a>
+                </div>
+            }
+            else
+            {
+                <div class="container center">
+                    <a style="border-radius:25px;background-color:#F42E56;height:8vh;margin:6vh 2vw;padding-top:1vh;width:20vw;" class="btn waves-effect waves-light col s3 hoverable" asp-action="GetPageOfOrders" asp-route-status="@ViewBag.OrderStatus">Back To List</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function RemoveItemFromOrder(ordersItemsId) {
+        window.location.href = '/BuyerOrder/RemoveItemFromOrder/?orderId=@Model.orderId&ordersItemsId=' + ordersItemsId;
+    }
+</script>

@@ -1,0 +1,29 @@
+﻿@model Potluck.Web.Models.UserDTO
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="container">
+    <div class="row card-panel">
+        <div class="col s4">
+            @await Html.PartialAsync("ProfileImage")
+            @await Html.PartialAsync("ProfileNav")
+        </div>
+        <div class="col s1"></div>
+        <div class="col s7">
+            <img src="~/images/Profile/kitchen-landscape.png" style="max-width:100%;padding:0px;margin:0px;opacity:0.5;" />
+            <div>
+                <div class="row center-align">
+                    <h5>ARE YOU SURE YOU WISH TO DELETE YOUR ACCOUNT?</h5>
+                </div>
+                <div class="row center-align">
+                    <h6>PRESSING THE BUTTON BELOW WILL DELETE ALL USER CONTENT</h6>
+                </div>
+                <div class="row center-align">
+                    <a asp-controller="Profile" asp-action="DeleteUser" style="border-radius:25px;background-color:#F42E56;" class="btn waves-effect waves-light col s12">!!! CONFIRM ACCOUNT DELETION !!!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

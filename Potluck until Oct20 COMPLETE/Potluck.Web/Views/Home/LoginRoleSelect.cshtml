@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Potluck.Web.Models.Role>
+
+@{
+    ViewData["Title"] = "Login";
+}
+<div class="row">
+    <div class="col s6" style="padding:0px;margin:0px;">
+        <img style="max-width:100%;max-height:100%;opacity:0.5;" src="~/images/Login/food-table-login-1.jpeg" />
+    </div>
+    <div class="col s1"></div>
+    <div class="col s4">
+        <div class="row center">
+            <h1 class="Radical-Red-Text">Sign In to continue</h1>
+        </div>
+        <div class="row">
+            <h5 class="center">Select Account Type</h5>
+        </div>
+        <div class="row">
+            <form id="LoginForm" asp-controller="Home" asp-action="SelectRole">
+                <div class="row">
+                    <select name="authority" class="left-align select-dropdown">
+                        @foreach (Role role in Model)
+                        {
+                            @if (role.authority == "ROLE_USER")
+                            {
+                                <option class="left-align" value="@role.authority" >
+                                    Customer 
+                                </option>
+                            }
+                            else if (role.authority == "ROLE_SELLER")
+                            {
+                                <option value="@role.authority" class="left">
+                                    Seller 
+                                </option>
+                            }
+                            else if (role.authority == "ROLE_ADMIN")
+                            {
+                                <option value="@role.authority" class="left">
+                                    Admin 
+                                </option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="input-group-btn col s12">
+                        <a style="border-radius:25px;background-color:#F42E56;" class="btn waves-effect waves-light col s12" onclick="document.getElementById('LoginForm').submit();return false;">Login</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col s1"></div>
+</div>

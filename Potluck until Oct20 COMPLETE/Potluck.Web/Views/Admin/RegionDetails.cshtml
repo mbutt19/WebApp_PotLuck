@@ -1,0 +1,50 @@
+﻿@model Potluck.Web.Models.StateCountry
+
+@{
+    ViewData["Title"] = "RegionDetails";
+}
+
+<style>
+    .card-panel {
+        border: 2px solid #F42E56;
+    }
+    .btn-primary{
+        margin:1vh 1vw;
+    }
+</style>
+<div class="container">
+    <h2 class="center Radical-Red-Text">Region Details</h2>
+
+    <div>
+        <table class="card-panel">
+            <tr>
+                <th class="Radical-Red-Text"> @Html.DisplayNameFor(model => model.country).ToUpper()</th>
+                <td>@Html.DisplayFor(model => model.country)</td>
+            </tr>
+            <tr>
+                <th class="Radical-Red-Text">@Html.DisplayNameFor(model => model.deliveryFee).ToUpper()</th>
+                <td>@Html.DisplayFor(model => model.deliveryFee)</td>
+            </tr>
+            <tr>
+                <th class="Radical-Red-Text">@Html.DisplayNameFor(model => model.serviceFee).ToUpper()</th>
+                <td>@Html.DisplayFor(model => model.serviceFee)</td>
+            </tr>
+            <tr>
+                <th class="Radical-Red-Text">@Html.DisplayNameFor(model => model.stateCountryId).ToUpper()</th>
+                <td>@Html.DisplayFor(model => model.stateCountryId)</td>
+            </tr>
+            <tr>
+                <th class="Radical-Red-Text">@Html.DisplayNameFor(model => model.stateProvince).ToUpper()</th>
+                <td>@Html.DisplayFor(model => model.stateProvince)</td>
+            </tr>
+            <tr>
+                <th class="Radical-Red-Text">@Html.DisplayNameFor(model => model.tax).ToUpper()</th>
+                <td>@Html.DisplayFor(model => model.tax)</td>
+            </tr>
+        </table>
+    </div>
+    <div class="row center">
+        @Html.ActionLink("Edit", "ShowRegionUpdate", new { regionId = Model.stateCountryId }, new { @class = "btn btn-primary Radical-Red white-text" }) 
+        <a class="btn btn-primary Radical-Red white-text" asp-action="ShowRegionConfig">Back to List</a>
+    </div>
+</div>

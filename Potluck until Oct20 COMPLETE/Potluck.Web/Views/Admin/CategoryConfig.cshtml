@@ -1,0 +1,106 @@
+﻿@model List<Potluck.Web.Models.Category>
+
+<style>
+    .container {
+        width: 80vw;
+        margin: 1vh auto;
+        border: 3px solid #F42E56;
+    }
+    .btn-primary {
+        margin: 1vh 1vw;
+    }
+</style>
+<div class="container card-panel">
+    <div class="row">
+        <table>
+            <tr class="Radical-Red-Text" style="border-bottom:none;">
+                <th>
+                    Add New Category
+                </th>
+                <th>Submit</th>
+            </tr>
+            <tr>
+                <td>
+                    <form id="newCategory">
+                        <input />
+                    </form>
+                </td>
+                <td>
+                    <a onclick="CreateCategory()">
+                        <i class="material-icons Radical-Red-Text" style="cursor: pointer;">add</i>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="row">
+        <table>
+            <tr class="Radical-Red-Text" style="border-bottom:none;">
+                <th>
+                    Category Id
+                </th>
+                <th>
+                    Category Name
+                </th>
+                <th class="center">
+                    Edit
+                </th>
+                <th>
+                    Delete
+                </th>
+            </tr>
+            @foreach (Category category in Model)
+            {
+                <tr>
+                    <td>
+                        @category.id
+                    </td>
+                    <td>
+                        <form id="@category.id">
+                            <input value="@category.name" />
+                        </form>
+                    </td>
+                    <td class="center">
+                        <a class="btn-primary Radical-Red white-text" style="padding:1vh 1vw;border-radius:25px;" onclick="EditCategory(@category.id)">
+                            <i class="material-icons" style="cursor: pointer;">edit</i>
+                            Update
+                        </a>
+                    </td>
+                    <td>
+                        <a onclick="DeleteCategory(@category.id)" style="padding-top:1vh;">
+                            <i class="material-icons Radical-Red-Text" style="cursor: pointer;">clear</i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div class="row center">
+    <a class="btn btn-primary Radical-Red white-text" asp-controller="Profile" asp-action="Index">Back to Admin Panel</a>
+</div>
+
+<script>
+    function EditCategory(categoryId) {
+        var form = document.getElementById(categoryId);
+        var newName = form.getElementsByTagName("input")[0].value;
+
+        window.location.href = "/Admin/UpdateCategory?categoryID=" + categoryId + "&name=" + newName;
+    }
+
+    function CreateCategory() {
+        var form = document.getElementById("newCategory");
+        var newName = form.getElementsByTagName("input")[0].value;
+
+        window.location.href = "/Admin/CreateCategory?name=" + newName;
+    }
+
+    function DeleteCategory(categoryId) {
+        //var form = document.getElementById("newCategory");
+        //var newCategory = form.getElementsByTagName("input")[0].value;
+        //window.alert(newCategory.value);
+
+        window.location.href = "/Admin/DeleteCategory?categoryID=" + categoryId;
+    }
+</script>

@@ -1,0 +1,144 @@
+﻿@model Potluck.Web.Models.ItemDTO
+
+@{
+    ViewData["Title"] = "ItemDetails";
+}
+
+<style>
+    td {
+        text-align: center;
+    }
+    .z-depth-5{
+        margin:10vh 15vw;
+    }
+    .btns{
+        width:100%;
+        margin:auto;
+    }
+    td, th{
+        border-radius:0;
+    }
+</style>
+<div class="container">
+    <h3 class="center Radical-Red-Text" style="font-size:3rem;font-family:Arial, Helvetica, sans-serif;font-weight:bold;font-size:2.85rem;margin:70px 0 50px 0;padding-left:3vw;">Item Details</h3>
+    <div class="row card-panel z-depth-5">
+        <div class="row center-align">
+            <!--Image Goes Here-->
+            @if (Model.imageUrl == null)
+            {
+                <img src="~/images/no-camera.png" style="max-height:23vh;min-height:15vh;zoom:1.5;width:80%;height:80%;" />
+            }
+            else
+            {
+                <img src="@Model.imageUrl" style="max-height:23vh;min-height:15vh;zoom:2;" />
+            }
+        </div>
+        <table class="table-bordered table">
+            <tr>
+                <th>Name:</th>
+                <td>@ViewData.Model.name</td>
+            </tr>
+            <tr>
+                <th>Description:</th>
+                <td>@ViewData.Model.description</td>
+            </tr>
+            <tr>
+                <th>Category:</th>
+                <td>@ViewData.Model.category.name</td>
+            </tr>
+            <tr>
+                <th>Calories:</th>
+                <td>@ViewData.Model.calories</td>
+            </tr>
+            <tr>
+                <th>Price:</th>
+                <td>$@Html.DisplayFor(model => model.price)</td>
+            </tr>
+            <tr>
+                <th>Enabled:</th>
+                @if (Model.enable)
+                {
+                    <td><i class="small material-icons">check</i></td>
+                }
+                else
+                {
+                    <td><i class="small material-icons">close</i></td>
+                }
+            </tr>
+            <tr>
+                <th>Sold Alone:</th>
+                @if (Model.soldAlone)
+                {
+                    <td><i class="small material-icons">check</i></td>
+                }
+                else
+                {
+                    <td><i class="small material-icons">close</i></td>
+                }
+            </tr>
+        </table>
+        @if (Model.customs != null)
+        {
+            @foreach (CustomDTO custom in Model.customs)
+            {
+                <table class="table card">
+                    <tr class="Radical-Red white-text">
+                        <th class="left-align">@custom.customTitle</th>
+                        <th class="left-align">Calories</th>
+                        <th class="right-align">Price</th>
+                        <th class="right-align">@custom.customType.Replace("_", " ")</th>
+                        <th><a onclick="RemoveCustomFromItem(@custom.customId)"><i class="small material-icons right white-text" style="cursor: pointer;padding:1vh">clear</i></a></th>
+                    </tr>
+                    @foreach (SubItemDTO subItem in custom.subItems)
+                    {
+                        <tr>
+                            <td class="left-align">@subItem.name </td>
+                            <td class="left-align">@subItem.calories</td>
+                            <td class="right-align">$@Html.DisplayFor(modelItem => subItem.price)</td>
+                            <td class="right-align">
+                                <input class="form-control" asp-for="@subItem.enable"  />
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+        }
+        <div class="row">
+            <div class="row card-panel" name="customSelect">
+                <div class="col s11">
+                    @if (ViewBag.SellerCustoms != null)
+                    {
+                        <select id="newCustomSelect">
+                            @foreach (CustomDTO customResponse in ViewBag.SellerCustoms)
+                            {
+                                <option value="@customResponse.customId">@customResponse.customTitle</option>
+                            }
+                        </select>
+                    }
+                </div>
+                <div class="col s1">
+                    <a onclick="AddCustomToItem()">
+                        <i class="small material-icons right Radical-Red-Text" style="cursor: pointer;padding:1vh">add</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row btns">
+            <b><a asp-controller="SellerItem" asp-action="ShowItemUpdate" style="border-radius:25px;background-color:#F42E56;height:8vh;margin:10vh .9vw;padding-top:1.5vh;" class="btn waves-effect waves-light col s3 hoverable" asp-route-itemId="@Model.itemId">Update</a></b>
+            <b><a asp-controller="SellerItem" asp-action="ShowItemDelete" style="border-radius:25px;background-color:#F42E56;height:8vh;margin:10vh .9vw;padding-top:1.5vh;" class="btn waves-effect waves-light col s3 hoverable" asp-route-itemId="@Model.itemId">Delete</a></b>
+            <a asp-action="Index" style="border-radius:25px;background-color:#F42E56;height:8vh;margin:10vh .9vw;padding-top:1.5vh;padding-right:.5vw;" class="btn waves-effect waves-light col s3 hoverable">Back to List</a>
+        </div>
+    </div>
+</div>
+<script>
+    function AddCustomToItem() {
+        var newCustomSelect = document.getElementById("newCustomSelect").value;
+        window.location.href = '/SellerItem/AddCustomToItem/?itemId=@(Model.itemId)&customId=' + newCustomSelect;
+    }
+
+    function RemoveCustomFromItem(customId) {
+        window.location.href = '/SellerItem/RemoveCustomFromItem/?itemId=@(Model.itemId)&customId=' + customId;
+    }
+</script>

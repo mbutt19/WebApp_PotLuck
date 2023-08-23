@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Potluck.Web</title>
+
+    <environment include="Development">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="~/css/materialize.min.css" media="screen,projection" />
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/NavStyle.css" />
+        @if (IsSectionDefined("AddToHead"))
+        {
+            @RenderSection("AddToHead", required: false)
+        }
+    </environment>
+    <environment include="Production">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="~/css/materialize.min.css" media="screen,projection" />
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/NavStyle.css" />
+        @if (IsSectionDefined("AddToHead"))
+        {
+            @RenderSection("AddToHead", required: false)
+        }
+    </environment>
+</head>
+<body>
+    @await Html.PartialAsync("NavBar")
+
+    <style>
+        .daBody{
+            max-width:100vw;
+        }
+    </style>
+    <div class="daBody">
+        @RenderBody()
+    </div>
+
+    <section id="footLinks" class="grey lighten-4" style="margin-bottom:0;padding:5vh 0 2vh 0;">
+        @await Html.PartialAsync("FootLinks")
+    </section>
+    <footer class="footer-copyright" style="margin-top:0;">
+        @await Html.PartialAsync("Footer")
+    </footer>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script type="text/javascript" src="~/js/materialize.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment include="Production">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script type="text/javascript" src="~/js/materialize.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            $('select').formSelect();
+        });
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
+        $(document).ready(function () {
+            $('.sidenav').sidenav();
+        });
+
+
+        $(function () {
+            var usernames = ["Alice", "Bob", "Charlie", "Dwayne", "Earl", "Fred", "Gary", "Henry", "Ian", "Jake", "Kelly", "Lilian", "Mike", "Nick", "Orlando", "Peter", "Quin", "Robert", "Sierra", "Terry", "Ugg", "Violet", "Wilson", "Xavier", "Yolanda", "Zara"];
+
+            var randomUserIndex = parseInt(Math.random() * 25);
+
+            var user = usernames[randomUserIndex];
+
+            var userName = user;
+
+            var protocol = location.protocol === "https:" ? "wss:" : "ws:";
+            var wsUri = protocol + "//" + window.location.host;
+            var socket = new WebSocket(wsUri);
+            socket.onopen = e => {
+                console.log("socket opened", e);
+            };
+
+            socket.onclose = function (e) {
+                console.log("socket closed", e);
+            };
+
+            socket.onmessage = function (e) {
+                console.log(e);
+                $('#msgs').append(e.data + '<br />');
+            };
+
+            socket.onerror = function (e) {
+                console.error(e.data);
+            };
+
+            $('#MessageField').keypress(function (e) {
+                if (e.which != 13) {
+                    return;
+                }
+
+                e.preventDefault();
+
+                var message = userName + ": " + $('#MessageField').val();
+                socket.send(message);
+                $('#MessageField').val('');
+            });
+        });
+    </script>
+</body>
+</html>

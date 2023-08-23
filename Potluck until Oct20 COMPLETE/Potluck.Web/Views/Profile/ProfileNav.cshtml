@@ -1,0 +1,160 @@
+﻿@if ("ROLE_ADMIN" == ViewData["CurrentRole"].ToString())
+{
+    <div class="row card-panel" style="background-color:#fff4f8;">
+        <div class="row">
+            <a asp-controller="Admin" asp-action="ShowCountryConfig" style="color:black">
+                <div class="col s10">
+                    Regional Config
+                </div>
+                <div class="col s2">
+                    <i class="small material-icons">chevron_right</i>
+                </div>
+            </a>
+        </div>
+        <div class="row">
+            <a asp-controller="Admin" asp-action="ShowCategoryConfig" style="color:black">
+                <div class="col s10">
+                    Category Config
+                </div>
+                <div class="col s2">
+                    <i class="small material-icons">chevron_right</i>
+                </div>
+            </a>
+        </div>
+    </div>
+}
+
+
+@if ("ROLE_USER" == ViewData["CurrentRole"].ToString() || "ROLE_ADMIN" == ViewData["CurrentRole"].ToString())
+{
+    <div class="row card-panel" style="background-color:#fff4f8;">
+        <div class="row">
+            <a asp-controller="BuyerOrder" asp-action="GetPageOfOrders" style="color:black">
+                <div class="col s10">
+                    My Orders
+                </div>
+                <div class="col s2">
+                    <i class="small material-icons">chevron_right</i>
+                </div>
+            </a>
+        </div>
+        <div class="row">
+            <a asp-controller="Profile" asp-action="ShowAddressManager" style="color:black">
+                <div class="col s10">
+                    Address Manager
+                </div>
+                <div class="col s2">
+                    <i class="small material-icons">chevron_right</i>
+                </div>
+            </a>
+        </div>
+        <div class="row">
+            <a asp-controller="Profile" asp-action="ShowFavorites" style="color:black">
+                <div class="col s10">
+                    My Favorites
+                </div>
+                <div class="col s2">
+                    <i class="small material-icons">chevron_right</i>
+                </div>
+            </a>
+        </div>
+        <div class="row">
+            <a style="color:black">
+                <div class="col s10">
+                    Refer Friends
+                </div>
+                <div class="col s2">
+                    <i class="small material-icons">chevron_right</i>
+                </div>
+            </a>
+        </div>
+    </div>
+}
+@if ("ROLE_SELLER" == ViewData["CurrentRole"].ToString() || "ROLE_ADMIN" == ViewData["CurrentRole"].ToString())
+{
+    <div class="row card-panel" style="background-color:#fff4f8;color:black;">
+        <div class="row">
+            <a style="color:black" asp-controller="SellerDelivery" asp-action="Index">
+                <div class="col s10">
+                    Delivery Options
+                </div>
+                <div class="col s2">
+                    <i class="small material-icons">chevron_right</i>
+                </div>
+            </a>
+        </div>
+        <div class="row">
+            <a style="color:black" asp-controller="SellerSchedule" asp-action="Index">
+                <div class="col s10">
+                    My Schedules
+                </div>
+                <div class="col s2">
+                    <i class="small material-icons">chevron_right</i>
+                </div>
+            </a>
+        </div>
+        <div class="row">
+            <a style="color:black" asp-controller="SellerItem" asp-action="Index">
+                <div class="col s10">
+                    My Items
+                </div>
+                <div class="col s2">
+                    <i class="small material-icons">chevron_right</i>
+                </div>
+            </a>
+        </div>
+        <div class="row">
+            <a style="color:black" asp-controller="SellerCustom" asp-action="ShowAllCustoms">
+                <div class="col s10">
+                    My Customs
+                </div>
+                <div class="col s2">
+                    <i class="small material-icons">chevron_right</i>
+                </div>
+            </a>
+        </div>
+        <div class="row">
+            <a style="color:black" asp-controller="SellerOrder" asp-action="ShowAllOrders">
+                <div class="col s10">
+                    My Orders
+                </div>
+                <div class="col s2">
+                    <i class="small material-icons">chevron_right</i>
+                </div>
+            </a>
+        </div>
+        <div class="row">
+            <a asp-controller="Profile" asp-action="ShowAddressManager" style="color:black">
+                <div class="col s10">
+                    Address Manager
+                </div>
+                <div class="col s2">
+                    <i class="small material-icons">chevron_right</i>
+                </div>
+            </a>
+        </div>
+    </div>
+}
+<!--Everybody Gets Service Links-->
+<div class="row card-panel" style="background-color:#fff4f8;">
+    <div class="row">
+        <a style="color:black">
+            <div class="col s10">
+                Terms Of Use
+            </div>
+            <div class="col s2">
+                <i class="small material-icons">chevron_right</i>
+            </div>
+        </a>
+    </div>
+    <div class="row">
+        <a style="color:black">
+            <div class="col s10">
+                Privacy Policy
+            </div>
+            <div class="col s2">
+                <i class="small material-icons">chevron_right</i>
+            </div>
+        </a>
+    </div>
+</div>

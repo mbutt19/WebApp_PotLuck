@@ -1,0 +1,20 @@
+﻿body {
+}
+
+.NavBar{
+    
+}
+
+.NavList{
+    padding:5px;
+}
+
+.NavButton{
+    display:inline-block;
+    padding:5px;
+    margin:0;
+}
+
+nav{
+    margin:0px;
+}

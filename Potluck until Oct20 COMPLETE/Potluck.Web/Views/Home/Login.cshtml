@@ -1,0 +1,66 @@
+﻿@model Potluck.Web.Models.LoginRequest
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row">
+    <div class="col s6" style="padding:0px;margin:1px;">
+        <img style="max-width:100%;max-height:100%;opacity:0.5;" src="~/images/Login/food-table-login-1.jpeg" />
+    </div>
+    <div class="col s2"></div>
+    <div class="col s4">
+        <div class="row">
+            <h1 class="Radical-Red-Text right-align">Welcome Back</h1>
+        </div>
+        <div class="row" style="margin-bottom:7vh;">
+            <h5 class="center">Sign in to continue</h5>
+        </div>
+
+        <form class="col s12 center" style="margin-left:1vw;" id="LoginForm" asp-controller="Home" asp-action="LoginUser">
+            <div class="row">
+                <div style="border-radius:25px" class="input-field col s12 card">
+                    <input placeholder="Email" style="border-bottom:none;text-align:center;" asp-for="email" class="form-control" />
+                    <span asp-validation-for="email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div style="border-radius:25px" class="input-field col s12 card">
+                    <input placeholder="Password" style="border-bottom:none;text-align:center;" type="password" asp-for="password" class="form-control" />
+                    <span asp-validation-for="password" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row" style="margin-top:8vh;">
+                <div class="input-group-btn col s12">
+                    <a style="border-radius:25px;background-color:#F42E56;height:8vh;padding:0;" class="btn waves-effect waves-light col s12" onclick="document.getElementById('LoginForm').submit();return false;">Login</a>
+                </div>
+            </div>
+            <div class="row" style="margin-top:5vh;">
+                <div class="input-group-btn col s12">
+                    <a asp-controller="Home" asp-action="ShowSignUp" style="border-radius:25px;background-color:#F42E56;height:8vh;padding:0;" class="btn waves-effect waves-light col s12">SignUp</a>
+                </div>
+            </div>
+            <environment include="Development">
+                <div class="row" style="margin-top:7vh;">
+                    <div class="input-group-btn col s6">
+                        <a style="border-radius:25px;height:8vh;" class="btn waves-effect waves-light red col s12" href="https://www.pot-luck.co:8167/api/v1/oauth2/authorize/google?redirect_uri=http://localhost/home/oauth2">Google Login</a>
+                    </div>
+                    <div class="input-group-btn col s6">
+                        <a style="border-radius:25px;height:8vh;" class="btn waves-effect waves-light blue col s12" href="https://www.pot-luck.co:8167/api/v1/oauth2/authorize/facebook?redirect_uri=http://localhost/home/oauth2">Facebook Login</a>
+                    </div>
+                </div>
+            </environment>
+            <environment include="Production">
+                <div class="row" style="margin-top:7vh;">
+                    <div class="input-group-btn col s6">
+                        <a style="border-radius:25px;height:8vh;" class="btn waves-effect waves-light red col s12" href="https://www.pot-luck.co:8167/api/v1/oauth2/authorize/google?redirect_uri=https://www.pot-luck.co/home/oauth2">Google Login</a>
+                    </div>
+                    <div class="input-group-btn col s6">
+                        <a style="border-radius:25px;height:8vh;" class="btn waves-effect waves-light blue col s12" href="https://www.pot-luck.co:8167/api/v1/oauth2/authorize/facebook?redirect_uri=https://www.pot-luck.co/home/oauth2">Facebook Login</a>
+                    </div>
+                </div>
+            </environment>
+        </form>
+
+    </div>
+    <div class="col s1"></div>
+</div>

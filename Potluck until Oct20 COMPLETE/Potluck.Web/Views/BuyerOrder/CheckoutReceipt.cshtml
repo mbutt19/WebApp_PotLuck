@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Potluck.Web.Models.OrdersItemDTO>
+
+@{
+    //Calculate Taxes and totals here
+    Dictionary<string, decimal> orderDetails = new Dictionary<string, decimal>();
+
+    orderDetails.Add("subTotal", 0);
+    orderDetails.Add("taxes", 0);
+    orderDetails.Add("total", 0);
+    orderDetails.Add("shipping", (decimal)2.0);
+
+    decimal taxMult = (decimal)0.15;//Place holder tax
+    foreach (OrdersItemDTO ordersItem in Model)
+    {
+        orderDetails["subTotal"] += ordersItem.price;
+    }
+
+    orderDetails["taxes"] = orderDetails["subTotal"] * taxMult;
+    orderDetails["total"] = orderDetails["subTotal"] + orderDetails["taxes"];
+}
+<style>
+    .z-depth-1 {
+        margin: 0;
+        padding: 0;
+        margin-bottom: 7vh;
+    }
+    th, td {
+        border-radius: 0;
+        margin: 0;
+        padding: 0;
+        padding: .33vh .1vw;
+        border: none;
+    }
+</style>
+
+<div class="card-panel z-depth-1 row">
+    <table class="col s12">
+        <tr class="Radical-Red white-text" style="padding:1vh 0;">
+            <th colspan="4" style="padding:0;margin:0;padding-left:1vw;">Name</th>
+            <th colspan="2" style="padding:0;margin:0;">Price</th>
+            <th class="right-align" style="padding:0;margin:0;">Qty</th>
+        </tr>
+        @foreach (OrdersItemDTO ordersItem in Model)
+        {
+            <tr class="grey-text" style="border-bottom:none;border-top:1px solid black">
+                <td colspan="4" style="padding-left:.5vw;">@ordersItem.item.name</td>
+                <td colspan="2">@ordersItem.item.price.ToString("c")</td>
+                <td class="right-align" style="padding-right:.3vw;">@ordersItem.quantity</td>
+            </tr>
+            @foreach (var custom in ordersItem.ordersItemsCustoms)
+            {
+                @foreach (var sub in custom.subitems)
+                {
+                    <tr class="grey-text grey lighten-4" style="border-bottom:none;">
+                        <td colspan="2" style="padding-left:.5vw;"></td>
+                        <td colspan="2">@sub.name</td>
+                        <td colspan="2">@sub.price.ToString("c")</td>
+                        <td class="right-align" style="padding-right:.3vw;">1</td>
+                    </tr>
+                }
+            }
+        }
+    </table>
+</div>

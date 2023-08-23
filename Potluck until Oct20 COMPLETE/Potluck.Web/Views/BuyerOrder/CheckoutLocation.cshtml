@@ -1,0 +1,21 @@
+﻿@section AddToHead{
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXhC0GFJXFH9KATR8cNMGp9kqYohryOEU&callback=initMap&libraries=&v=weekly" async defer></script>
+    <style>
+        #map {
+            height: 100%;
+        }
+    </style>
+    <script>
+        function initMap() {
+            // The location of Uluru
+            var toronto = { lat: 43.729, lng: -79.448 };
+            // The map, centered at Uluru
+            var map = new google.maps.Map(
+                document.getElementById('map'), { zoom: 4, center: toronto });
+            // The marker, positioned at Uluru
+            var marker = new google.maps.Marker({ position: toronto, map: map });
+        }
+    </script>
+}
+
+<div id="map"></div>

@@ -1,0 +1,159 @@
+﻿@model Potluck.Web.Models.ScheduleDTO
+
+@{
+    ViewData["Title"] = "ScheduleDetails";
+}
+
+@{
+    Dictionary<string, string> daysOfWeek = new Dictionary<string, string>();
+
+    daysOfWeek.Add("EVERYDAY", "Everyday");
+    daysOfWeek.Add("SUNDAY", "Sunday");
+    daysOfWeek.Add("MONDAY", "Monday");
+    daysOfWeek.Add("TUESDAY", "Tuesday");
+    daysOfWeek.Add("WEDNESDAY", "Wednesday");
+    daysOfWeek.Add("THURSDAY", "Thursday");
+    daysOfWeek.Add("FRIDAY", "Friday");
+    daysOfWeek.Add("SATURDAY", "Saturday");
+
+}
+
+<style>
+    h2{
+        margin-bottom:5vh;
+    }
+    .outer {
+        border: 4px solid #F42E56;
+    }
+    .btn-default{
+        margin-top:5vh;
+    }
+    h4 {
+        border-bottom:1px solid #F42E56;
+        margin-top:5.5vh;
+        margin-bottom:2.5vh;
+        padding:0;
+        color:gray;
+    }
+    .scheduleCard {
+        border: 1px inset #F42E56;
+    }
+</style>
+<div class="container">
+    <h2 class="Radical-Red-Text center"><b>Schedule Details</b></h2>
+    <div class="row card-panel outer">
+        <div class="col s4 card scheduleCard">
+            <form asp-controller="SellerSchedule" asp-action="UpdateDateTime">
+                <input hidden asp-for="scheduleId" value="@Model.scheduleId" />
+                <div class="col s12"><h4 class="center">Schedule</h4></div>
+                <div class="row">
+                    <div class="col s2">
+                        <p>Day:</p>
+                    </div>
+                    <div class="col s10">
+                        <select asp-for="dayOfWeek">
+                            @foreach (var day in daysOfWeek)
+                            {
+                                @if (Model.dayOfWeek == day.Key)
+                                {
+                                    <option selected value="@day.Key">@day.Value</option>
+                                }
+                                else
+                                {
+                                    <option value="@day.Key">@day.Value</option>
+                                }
+
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s2">
+                        <p>Start:</p>
+                    </div>
+                    <div class="col s10">
+                        <input required asp-for="timeFrom" type="time" value="@Model.timeFrom" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s2">
+                        End:
+                    </div>
+                    <div class="col s10">
+                        <input required asp-for="timeTo" type="time" value="@Model.timeTo" />
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <input type="submit" value="Update Date and Time" class="btn btn-default Radical-Red" />
+                    <a class="btn btn-default Radical-Red" asp-action="Index">Back To List</a>
+                </div>
+            </form>
+        </div>
+        <div class="col s1">&nbsp;</div>
+        <div class="col s7">
+            <div class="col s12"><h4 class="center">Menu Items</h4></div>
+            <table class="table" style="width:80%;margin:0 auto;">
+                <tr class="Radical-Red white-text" style="border: 4px solid #F42E56;">
+                    <th>Name</th>
+                    <th class="center-align">Price</th>
+                    <th class="center-align">Calories</th>
+                    <th class="center-align">Remove</th>
+                </tr>
+                @if (Model.itemList != null)
+                {
+                    <tbody class="row card-panel z-depth-1" style="border: 1px inset #F42E56;">
+                        @foreach (ItemDTO item in Model.itemList)
+                        {
+                            <tr class="grey-text">
+                                <td> @item.name</td>
+                                <td class="center-align">@item.price.ToString("C")</td>
+                                <td class="center-align">@item.calories</td>
+                                <td>
+                                    <a onclick="RemoveItemFromSchedule(@item.itemId)">
+                                        <i class="mall material-icons right Radical-Red-Text" style="cursor: pointer;">clear</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                }
+            </table>
+            <div class="row" id="itemSelections">
+                <div class="row card-panel" name="itemSelect">
+                    <div class="col s11">
+                        @if (ViewBag.SellerItems != null)
+                        {
+                            <select id="newItemSelect">
+                                @foreach (ItemDTO item in ViewBag.SellerItems)
+                                {
+                                    <option value="@item.itemId">@item.name</option>
+                                }
+                            </select>
+                        }
+                    </div>
+                    <div class="col s1">
+                        <a onclick="AddItemToSchedule()">
+                            <i class="small material-icons right Radical-Red-Text" style="cursor: pointer;padding:1vh">add</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="row">
+        <a class="btn btn-primary Radical-Red" asp-action="Index">Back To List</a>
+    </div>*@
+    
+</div>
+
+
+<script>
+    function AddItemToSchedule() {
+        var newItemSelect = document.getElementById("newItemSelect").value;
+        window.location.href = '/SellerSchedule/AddItemToSchedule/?scheduleId=@Model.scheduleId&itemId=' + newItemSelect;
+    }
+
+    function RemoveItemFromSchedule(itemId) {
+        window.location.href = '/SellerSchedule/RemoveItemFromSchedule/?scheduleId=@Model.scheduleId&itemId=' + itemId;
+    }
+</script>

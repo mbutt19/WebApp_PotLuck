@@ -1,0 +1,120 @@
+﻿@model Potluck.Web.Models.CustomDTO
+
+@{
+    ViewData["Title"] = "CustomDetails";
+}
+
+<style>
+    .table th {
+        width: 30%;
+        border-radius:0;
+        margin:0;
+        border:none;
+    }
+    .table {
+        margin-top: 10vh;
+    }
+    .btns {
+        margin: 0 auto;
+        width: 30%;
+    }
+    h5 {
+        margin: 7vh 0 3vh 0;
+    }
+    #itemSelections{
+        margin: 7vh 0;
+    }
+    .z-depth-5{
+        margin:15vh auto;
+    }
+</style>
+
+<div class="container">
+    <div class="row card-panel z-depth-5">
+        <div class="row center-align">
+            <h3 class="Radical-Red-Text center" style="font-family:Arial, Helvetica, sans-serif;font-weight:bold;font-size:2.5rem;">Custom Details</h3>
+            <hr />
+            <table class="table" style="width:70%;margin:0 auto;">
+                <tr>
+                    <th class="Radical-Red-Text">Custom Title</th>
+                    <td class="center-align">@Html.DisplayFor(model => model.customTitle)</td>
+                </tr>
+                <tr>
+                    <th class="Radical-Red-Text">Custom Type</th>
+                    @if (Model.customType == "SELECT_ONE")
+                    {
+                        <td class="center">Select One</td>
+                    }
+                    else if (Model.customType == "SELECT_MULTI")
+                    {
+                        <td class="center">Select Multi</td>
+                    }
+                </tr>
+            </table>
+            <h5 class="Radical-Red-Text center">
+                Custom Combo Items
+            </h5>
+            <table class="table" style="width:80%;margin:0 auto;">
+                <tr class="Radical-Red white-text"  style="border: 4px solid #F42E56;">
+                    <th>Name</th>
+                    <th class="center-align">Price</th>
+                    <th class="center-align">Calories</th>
+                    <th class="center-align">Remove</th>
+                </tr>
+                @if (Model.subItems != null)
+                {
+                    <tbody class="row card-panel z-depth-1" style="border: 1px inset #F42E56;">
+                        @foreach (SubItemDTO subItem in Model.subItems)
+                        {
+                        <tr class="grey-text">
+                            <td> @subItem.name</td>
+                            <td class="center-align">@subItem.price.ToString("C")</td>
+                            <td class="center-align">@subItem.calories</td>
+                            <td>
+                                <a onclick="RemoveItemFromCustom(@subItem.itemId)">
+                                    <i class="mall material-icons right Radical-Red-Text" style="cursor: pointer;">clear</i>
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                }
+            </table>
+            <div class="row" id="itemSelections">
+                <div class="row card-panel" name="itemSelect">
+                    <div class="col s11">
+                        @if (ViewBag.SellerItems != null)
+                        {
+                            <select id="newItemSelect">
+                                @foreach (ItemDTO item in ViewBag.SellerItems)
+                                {
+                                    <option value="@item.itemId">@item.name</option>
+                                }
+                            </select>
+                        }
+                    </div>
+                    <div class="col s1">
+                        <a onclick="AddItemToCustom()">
+                            <i class="small material-icons right Radical-Red-Text" style="cursor: pointer;padding:1vh">add</i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="btns">
+                <a style="border-radius:25px;background-color:#F42E56;height:8vh;padding-top:1vh;" class="btn waves-effect waves-light col s8 hoverable" asp-action="ShowAllCustoms">Back To List</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function AddItemToCustom() {
+        var newItemSelect = document.getElementById("newItemSelect").value;
+        window.location.href = '/SellerCustom/AddItemToCustom/?customId=@(Model.customId)&itemId=' + newItemSelect;
+    }
+
+    function RemoveItemFromCustom(itemId) {
+        window.location.href = '/SellerCustom/RemoveItemFromCustom/?customId=@(Model.customId)&itemId=' + itemId;
+    }
+</script>

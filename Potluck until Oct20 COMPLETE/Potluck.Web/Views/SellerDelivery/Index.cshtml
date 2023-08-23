@@ -1,0 +1,136 @@
+﻿@model Potluck.Web.Models.PageOfDeliveries
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .container{
+        width:80%;
+        margin:5vh auto;
+    }
+    .btn{
+        border-radius:25px;
+        margin-left:.8vw;
+    }
+    input{
+        text-align:center;
+    }
+    .deleter {
+        border: 3px solid #F42E56;
+    }
+</style>
+<div class="container card-panel ">
+    <h4 class="center Radical-Red-Text">Deliveries</h4>
+    <hr class="Radical-Red Radical-Red-Text" />
+    <table style="border: 5px solid #F42E56;">
+        <tr class="Radical-Red white-text">
+            <th class="center">
+                Name
+            </th>
+            <th class="center">
+                Coverage Range (KM)
+            </th>
+            <th class="center">
+                Fee %
+            </th>
+            <th class="center">
+                Create New
+            </th>
+        </tr>
+        <tr id="CreateRow">
+            <td>
+                <input id="createName" />
+            </td>
+            <td>
+                <input id="createCoverage" type="number" />
+            </td>
+            <td>
+                <input id="createFee" type="number" />
+            </td>
+            <td class="center">
+                <a class="btn btn-default Radical-Red" onclick="CreateDelivery()">
+                    <i class="material-icons" style="cursor: pointer;"><b>add_circle_outline</b></i>
+                </a>
+            </td>
+        </tr>
+    </table>
+    <div style="border: 2px solid #F42E56;">
+        @if (Model.content != null)
+        {
+            <table>
+                <tr class="Radical-Red-Text">
+                    <th class="center">
+                        Name
+                    </th>
+                    <th class="center">
+                        Coverage Range (KM)
+                    </th>
+                    <th class="center">
+                        Fee %
+                    </th>
+                    <th class="center">
+                        Edit
+                    </th>
+                    <th class="center">
+                        Delete
+                    </th>
+                </tr>
+                @foreach (DeliveryDTO delivery in Model.content)
+                {
+                    <tr id="@delivery.deliveryId">
+                        <td>
+                            <input id="name" value="@delivery.name" />
+                        </td>
+                        <td>
+                            <input id="coverage" value="@delivery.coverageKmRadius" type="number" />
+                        </td>
+                        <td>
+                            <input id="fee" value="@delivery.feePercentage" type="number" />
+                        </td>
+                        <td class="center">
+                            <a class="btn btn-danger Radical-Red" onclick="EditDelivery(@delivery.deliveryId)">
+                                <i class="mall material-icons" style="cursor: pointer;">edit</i>
+                            </a>
+                        </td>
+                        <td class="center">
+                            <a class="btn btn-danger white deleter" onclick="DeleteDelivery(@delivery.deliveryId)">
+                                <i class="mall material-icons Radical-Red-Text" style="cursor: pointer;"><b>clear</b></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                }
+            </table>
+        }
+    </div>
+
+</div>
+
+
+<script>
+    function CreateDelivery() {
+        var createRow = document.getElementById("CreateRow");
+        var inputs = createRow.getElementsByTagName("input");
+        var name = inputs[0].value;
+        var coverageRadius = inputs[1].value;
+        var feePercentage = inputs[2].value;
+
+        window.location.href = '/SellerDelivery/CreateDelivery/?name=' + name + "&coverageRadius=" + coverageRadius + "&feePercentage=" + feePercentage;
+    }
+
+    function DeleteDelivery(deliveryId) {
+        window.location.href = '/SellerDelivery/DeleteDelivery/?deliveryId=' + deliveryId;
+    }
+
+    function EditDelivery(deliveryId) {
+        var deliveryRow = document.getElementById(deliveryId);
+        var inputs = deliveryRow.getElementsByTagName("input");
+        var name = inputs[0].value;
+        var coverageRadius = inputs[1].value;
+        var feePercentage = inputs[2].value;
+
+
+        window.location.href = '/SellerDelivery/EditDelivery/?deliveryId=' + deliveryId + "&name=" + name + "&coverageRadius=" + coverageRadius + "&feePercentage=" + feePercentage;
+    }
+</script>

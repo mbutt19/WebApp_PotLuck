@@ -1,0 +1,75 @@
+﻿@model Potluck.Web.Models.UserDTO
+
+@{
+    ViewData["Title"] = "ProfileAddress";
+}
+
+<div class="container">
+    <div class="row card-panel">
+        <div class="col s4">
+            @await Html.PartialAsync("ProfileImage")
+            @await Html.PartialAsync("ProfileNav")
+        </div>
+        <div class="col s1"></div>
+        <div class="col s7">
+            <img src="~/images/Profile/kitchen-landscape.png" style="max-width:100%;padding:0px;margin:0px;opacity:0.5;" />
+            @if (ViewBag.Noaddress)
+            {
+                <div class="row card">
+                    <h3>Please enter an address to continue.</h3>
+                </div>
+            }
+            <div class="col-sm-6 container right">
+                <a asp-controller="Profile" asp-action="ShowAddAddress">
+                    <div class="col s8 card panel btn Radical-Red white-text">
+                        Add New Address
+                    </div>
+                </a>
+            </div>
+            @if (Model.addresses != null)
+            {
+                <div class="row" style="margin:0;padding:0;">
+                    @foreach (AddressDTO address in Model.addresses)
+                    {
+                        <div class="col s5 card panel center-on-small" style="min-height:31vh;max-height:35vh;margin-right:1.7vw;padding:0;border-bottom-left-radius:15px;border-bottom-right-radius:15px;">
+                            <div class="row" style="padding:0;margin:0;">
+                                <div class="col s5 Radical-Red">
+                                    <a asp-controller="Profile" asp-action="ShowUpdateAddress" asp-route-addressId="@address.addressId" class="Radical-Red white-text">Update</a>
+                                </div>
+                                <div class="col s5 Radical-Red"> &nbsp;</div>
+                                <div class="col s2 Radical-Red" style="padding:0;margin:0;">
+                                    <a asp-controller="Profile" asp-action="RemoveAddress" asp-route-addressId="@address.addressId">
+                                        <i class="tiny material-icons Radical-Red white-text" style="cursor: pointer;">clear</i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col s11 push-s1 center">
+                                <ul class="left grey-text">
+                                    @if (address.mainAddress)
+                                    {
+                                        <li><i class="material-icons small Radical-Red-Text" style="margin-top:1vh;">person_pin_circle</i></li>
+                                    }
+                                    <li class="center Radical-Red-Text"><b>@address.addressName.ToUpper()</b></li>
+                                    <li><i>@address.addressLine1</i></li>
+                                    @if (address.addressLine2 == null || address.addressLine2 == "")
+                                    {
+                                        <li>_</li>
+                                    }
+                                    else
+                                    {
+                                        <li><i>@address.addressLine2</i></li>
+                                    }
+
+                                    <li><i>@address.city</i></li>
+                                    <li><i>@address.postalCode.ToUpper()</i></li>
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+

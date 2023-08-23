@@ -1,0 +1,158 @@
+﻿@model Potluck.Web.Models.PageOfCustoms
+
+@{
+    ViewData["Title"] = "CustomList";
+}
+
+<style>
+    .container{
+        margin:5vh auto;
+        width:75%
+    }
+    .btn{
+        padding:.2vh 2vw;
+    }
+    .righty {
+        margin-right: 1vw;
+        margin-left: 4vw;
+        border: 5px solid #F42E56;
+        padding-bottom: 6vh;
+        padding-top: 0;
+        text-align: center
+    }
+    tbody{
+        width:100%;
+    }
+    td{
+        width:31vw;
+    }
+    .lefty {
+        padding-bottom: 6.5vh;
+        padding-top: 0;
+    }
+    .newer {
+        padding-bottom: 6.5vh;
+        padding-top: 0;
+    }
+    h3 {
+        margin-bottom: 7vh;
+        color:#F42E56;
+    }
+    thead tr {
+        background-color: #F42E56;
+        color:white;
+    }
+    th, tr{
+        border-radius:0;
+    }
+    .z-depth-5{
+        margin-bottom:15vh;
+    }
+    .pagination {
+        margin: 5vh 3vw;
+    }
+</style>
+
+<div class="container center card-panel z-depth-5">
+    <h3 class="left">Customs List</h3>
+    <p class="right">
+        <a class="btn Radical-Red newer" asp-action="ShowCustomCreate">Create New<i class="material-icons small left">add_circle</i></a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <b>Title</b>
+                </th>
+                <th>
+                    <b>Type</b>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.content)
+            {
+            <tr class="grey-text text-darken-2">
+                <td>
+                    @Html.DisplayFor(modelItem => item.customTitle)
+                </td>
+                @if (item.customType == "SELECT_ONE")
+                {
+                    <td>Select One</td>
+                }
+                else if (item.customType == "SELECT_MULTI")
+                {
+                    <td>Select Multi</td>
+                }
+                <td class="right right-align">
+                    @Html.ActionLink("Details", "ShowCustomDetails", new { customId = item.customId }, new { @class = "btn Radical-Red lefty" })
+                    @Html.ActionLink("Delete", "DeleteCustom", new { customId = item.customId }, new { @class = "btn Radical-Red-Text white righty" })
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+    @if (Model.first && Model.last)
+    {
+        <ul class="pagination">
+            <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_left</i></a></li>
+            <li class="active"><a asp-action="ShowCustomPageByNumber" asp-route-pageNumber="0">1</a></li>
+            <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_right</i></a></li>
+        </ul>
+    }
+    else if (Model.first)
+    {
+        <ul class="pagination">
+            <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_left</i></a></li>
+            @for (int i = 0; i < Model.totalPages; i++)
+            {
+                @if (i == Model.pageable.pageNumber)
+                {
+                    <li><a style="color:#F42E56;" asp-action="ShowCustomPageByNumber" asp-route-pageNumber="@i">@(i+1)</a></li>
+                }
+                else
+                {
+                    <li class="active"><a asp-action="ShowCustomPageByNumber" asp-route-pageNumber="@i">@(i+1)</a></li>
+                }
+            }
+            <li class="active"><a asp-action="ShowCustomPageByNumber" asp-route-pageNumber="@(Model.pageable.pageNumber+1)"><i class="material-icons">chevron_right</i></a></li>
+        </ul>
+    }
+    else if (Model.last)
+    {
+        <ul class="pagination">
+            <li class="active"><a asp-action="ShowCustomPageByNumber" asp-route-pageNumber="@(Model.pageable.pageNumber-1)"><i class="material-icons">chevron_left</i></a></li>
+            @for (int i = 0; i < Model.totalPages; i++)
+            {
+                @if (i == Model.pageable.pageNumber)
+                {
+                    <li><a style="color:#F42E56;" asp-action="ShowCustomPageByNumber" asp-route-pageNumber="@i">@(i+1)</a></li>
+                }
+                else
+                {
+                    <li class="active"><a asp-action="ShowCustomPageByNumber" asp-route-pageNumber="@i">@(i+1)</a></li>
+                }
+            }
+            <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_right</i></a></li>
+        </ul>
+    }
+    else if (!Model.first && !Model.last)
+    {
+        <ul class="pagination">
+            <li class="active"><a asp-action="ShowCustomPageByNumber" asp-route-pageNumber="@(Model.pageable.pageNumber-1)"><i class="material-icons">chevron_left</i></a></li>
+            @for (int i = 0; i < Model.totalPages; i++)
+            {
+                @if (i == Model.pageable.pageNumber)
+                {
+                    <li><a style="color:#F42E56;" asp-action="ShowCustomPageByNumber" asp-route-pageNumber="@i">@(i+1)</a></li>
+                }
+                else
+                {
+                    <li class="active"><a asp-action="ShowCustomPageByNumber" asp-route-pageNumber="@i">@(i+1)</a></li>
+                }
+            }
+            <li class="active"><a asp-action="ShowCustomPageByNumber" asp-route-pageNumber="@(Model.pageable.pageNumber+1)"><i class="material-icons">chevron_right</i></a></li>
+        </ul>
+    }

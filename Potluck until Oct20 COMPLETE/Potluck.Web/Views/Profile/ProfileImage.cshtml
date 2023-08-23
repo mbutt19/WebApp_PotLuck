@@ -1,0 +1,70 @@
+﻿@model Potluck.Web.Models.UserDTO
+
+@{
+    string starString = "";
+    if (ViewBag.CurrentRole == "ROLE_SELLER")
+    {
+        double stars = 0;
+        if (Model.reviews != 0)
+        {
+            stars = Model.amountStars / Model.reviews;
+        }
+
+        int fullStars = (int)Math.Floor(stars);
+        int emptyStars = 5 - fullStars;
+
+
+        for (int i = 0; i < fullStars; i++)
+        {
+            starString += "★";
+        }
+        for (int i = 0; i < emptyStars; i++)
+        {
+            starString += "☆";
+        }
+    }
+}
+
+<style>
+    a .row{
+        margin:2vh;
+    }
+</style>
+<div class="row card-panel" style="background-color:#fff4f8;">
+    <div class="row center-align">
+        @if (Model.imageUrl == null)
+        {
+            <img src="~/images/no-camera.png" style="max-height:100%;max-width:100%;border-radius:50%" />
+        }
+        else
+        {
+            <img src="@Model.imageUrl" style="max-height:100%;max-width:100%;border-radius:50%" />
+        }
+    </div>
+    <div class="row">
+        @Html.DisplayFor(model => model.name)
+    </div>
+    @if (ViewBag.CurrentRole == "ROLE_SELLER")
+    {
+        <div class="row">
+            <a asp-controller="Review" asp-action="ShowSellerReviews" asp-route-email="@Model.email">
+                @starString Reviews: @Model.reviews
+            </a>
+        </div>
+    }
+
+
+
+    <div class="row">
+        <a asp-controller="Profile" asp-action="ProfileEdit" class="center-align">
+            <div class="row card-panel Radical-Red white-text">
+                Edit Profile
+            </div>
+        </a>
+        <a asp-controller="Profile" asp-action="LogOutUser" class="center-align">
+            <div class="row card-panel Radical-Red white-text">
+                Log Out
+            </div>
+        </a>
+    </div>
+</div>

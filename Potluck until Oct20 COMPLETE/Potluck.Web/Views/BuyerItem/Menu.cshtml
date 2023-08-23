@@ -1,0 +1,129 @@
+﻿@model Potluck.Web.Models.PageOfItems
+
+@{
+    ViewData["Title"] = "Menu";
+    string userId = Model.content.ElementAt(0).user.userId;
+}
+
+<style>
+    .hoverable {
+        margin: 3vh 3vw;
+        min-height: 62vh;
+        max-height: 62vh;
+    }
+
+    .deets {
+        min-height: 33vh;
+        max-height: 33vh;
+        padding-top: .2vh;
+    }
+
+    .pix {
+        min-height: 29vh;
+        max-height: 29vh;
+    }
+
+    .pagination {
+        margin: 5vh 3vw;
+    }
+</style>
+
+<h3 class="center-align Radical-Red-Text" style="font-size:3rem;font-family:Arial, Helvetica, sans-serif;font-weight:bold;font-size:2.85rem;margin:70px 0 50px 0;padding-left:3vw;">@Model.content[0].user.name Menu</h3>
+<div class="row" style="margin-bottom:20vh;">
+    @foreach (var item in Model.content)
+    {
+        @if (item.enable)
+        {
+            <a asp-controller="BuyerItem" asp-action="ShowItemDetails" asp-route-itemId="@item.itemId">
+                <div class="col s3 card-panel itemCard z-depth-5 hoverable" style="margin-left: 5vw;">
+                    <div class="row center-align pix">
+                        <!--Image-->
+                        @if (item.imageUrl == null)
+                        {
+                            <img src="~/images/Recipe/no-camera.png" style="height:20vh;max-width:100%;border-top-left-radius:18px;border-top-right-radius:18px;zoom:1.5;overflow:hidden" />
+                        }
+                        else
+                        {
+                            <img src="@item.imageUrl" style="height:80%;width:80%;margin:auto;max-width:80%;min-width:80%;max-height:18vh;min-height:17vh;margin-top:1vh;zoom:1.75;overflow:hidden;margin:1vh 1vw;" />
+                        }
+                    </div>
+                    <div class="row deets">
+                        <div class="col s12">
+                            <div class="row" style="color:black;padding-left:7px;">
+                                <!--Name-->
+                                <h5 class="center grey-text" style="font-weight:500;font-size:large;margin-top:3vh"><u class="Radical-Red-Text">@item.name.ToUpper()</u></h5>
+                                <!--Description-->
+                                <p class="grey-text lighten-3 center" style="font-size:x-small; margin-top:4vh;"><i>@item.description</i></p>
+                                <!--Price-->
+                                <p class="Radical-Red-Text center" style="font-size:medium"><b>$@Html.DisplayFor(modelItem => item.price)</b></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        }
+    }
+</div>
+
+@if (Model.first && Model.last)
+{
+    <ul class="pagination">
+        <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_left</i></a></li>
+        <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-userId="@userId" asp-route-pageNumber="0">1</a></li>
+        <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_right</i></a></li>
+    </ul>
+}
+else if (Model.first)
+{
+    <ul class="pagination">
+        <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_left</i></a></li>
+        @for (int i = 0; i < Model.totalPages; i++)
+        {
+            @if (i == Model.pageable.pageNumber)
+            {
+                <li><a style="color:#F42E56;" asp-action="ShowMenuPageByNumber" asp-route-userId="@userId" asp-route-pageNumber="@i">@(i+1)</a></li>
+            }
+            else
+            {
+                <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-userId="@userId" asp-route-pageNumber="@i">@(i+1)</a></li>
+            }
+        }
+        <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-userId="@userId" asp-route-pageNumber="@(Model.pageable.pageNumber+1)"><i class="material-icons">chevron_right</i></a></li>
+    </ul>
+}
+else if (Model.last)
+{
+    <ul class="pagination">
+        <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-userId="@userId" asp-route-pageNumber="@(Model.pageable.pageNumber-1)"><i class="material-icons">chevron_left</i></a></li>
+        @for (int i = 0; i < Model.totalPages; i++)
+        {
+            @if (i == Model.pageable.pageNumber)
+            {
+                <li><a style="color:#F42E56;" asp-action="ShowMenuPageByNumber" asp-route-userId="@userId" asp-route-pageNumber="@i">@(i+1)</a></li>
+            }
+            else
+            {
+                <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-userId="@userId" asp-route-pageNumber="@i">@(i+1)</a></li>
+            }
+        }
+        <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_right</i></a></li>
+    </ul>
+}
+else if (!Model.first && !Model.last)
+{
+    <ul class="pagination">
+        <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-userId="@userId" asp-route-pageNumber="@(Model.pageable.pageNumber-1)"><i class="material-icons">chevron_left</i></a></li>
+        @for (int i = 0; i < Model.totalPages; i++)
+        {
+            @if (i == Model.pageable.pageNumber)
+            {
+                <li><a style="color:#F42E56;" asp-action="ShowMenuPageByNumber" asp-route-userId="@userId" asp-route-pageNumber="@i">@(i+1)</a></li>
+            }
+            else
+            {
+                <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-userId="@userId" asp-route-pageNumber="@i">@(i+1)</a></li>
+            }
+        }
+        <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-userId="@userId" asp-route-pageNumber="@(Model.pageable.pageNumber+1)"><i class="material-icons">chevron_right</i></a></li>
+    </ul>
+}

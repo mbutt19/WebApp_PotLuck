@@ -1,0 +1,47 @@
+﻿@model Potluck.Web.Models.UserDTO
+@{
+    string imageUrl;
+    @if (Model.imageUrl == null)
+        {
+            imageUrl = "/images/no-camera.png";
+        }
+        else
+        {
+            imageUrl = Model.imageUrl;
+        }
+
+    double stars = 0;
+    if (Model.reviews != 0)
+    {
+        stars = Model.amountStars / Model.reviews;
+    }
+    int fullStars = (int)Math.Floor(stars);
+    int emptyStars = 5 - fullStars;
+    string starString = "";
+
+    for (int i = 0; i < fullStars; i++)
+    {
+        starString += "★";
+    }
+    for (int i = 0; i < emptyStars; i++)
+    {
+        starString += "☆";
+    }
+    }
+<div class='row' id='miniProfile'>
+    <div class='col s3'>
+        <div class='row center-align'>
+            <img src='@imageUrl' style='max-height:200vh;max-width:100%;' />
+        </div>
+    </div>
+    <div class='col s8' style='padding-top:1vh;color:black'>
+        <div class="row">
+            <b>@Model.name</b>
+        </div>
+        <div class="row">
+            <a asp-controller="Review" asp-action="ShowSellerReviews" asp-route-email="@Model.email">
+                @starString Reviews: @Model.reviews
+            </a>
+        </div>
+    </div>
+</div>

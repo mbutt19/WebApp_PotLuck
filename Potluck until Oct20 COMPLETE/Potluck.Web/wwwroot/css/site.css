@@ -1,0 +1,104 @@
+﻿.body {
+    font-family: Arial;
+    font-size: 1vh;
+}
+
+.Radical-Red{
+    background-color: #F42E56;
+}
+
+.Radical-Red-Text {
+    color: #F42E56;
+}
+
+.waves-effect.waves-radical-red .waves-ripple {
+    /* The alpha value allows the text and background color
+   of the button to still show through. */
+    background-color: rgba(244, 46, 86, 0.65);
+}
+
+.btn:hover {
+    background-color: rgba(244, 46, 86, 0.65);
+}
+
+.btn {
+    background-color: rgb(244, 46, 86);
+}
+
+.btn-floating:hover {
+    background-color: rgba(244, 46, 86, 0.65);
+}
+
+.btn-floating {
+    background-color: rgb(244, 46, 86);
+}
+
+.checkbox-radical-red[type="checkbox"] + label:before {
+    border: 2px solid #F42E56;
+    background: transparent;
+}
+
+.checkbox-radical-red[type="checkbox"]:checked + label:before {
+    border: 2px solid transparent;
+    border-bottom: 2px solid #F42E56;
+    border-right: 2px solid #F42E56;
+    background: transparent;
+}
+
+.checkbox-radical-red.filled-in[type="checkbox"] + label:after {
+    border: 2px solid #F42E56;
+    background: transparent;
+}
+
+.VertPad {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+#fpCard{
+    padding:10px;
+    border-radius:20px;
+    height:100%;
+}
+
+
+
+
+
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+/*body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+ Wrapping element 
+ Set some basic padding to keep content from hitting the edges 
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+ Carousel 
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+ Make .svg files in the carousel display properly in older browsers 
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+ QR code generator 
+#qrCode {
+    margin: 15px;
+}
+
+ Hide/rearrange for smaller screens 
+@media screen and (max-width: 767px) {
+     Hide captions 
+    .carousel-caption {
+        display: none;
+    }
+}*/

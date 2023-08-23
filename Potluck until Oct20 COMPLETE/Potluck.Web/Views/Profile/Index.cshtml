@@ -1,0 +1,42 @@
+﻿@model Potluck.Web.Models.UserDTO
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<style>
+    dd {
+        float: right;
+    }
+    dt{
+        padding:5vh 1vw;
+    }
+</style>
+<div class="container">
+    <div class="row card-panel">
+        <div class="col s4">
+            @await Html.PartialAsync("ProfileImage")
+            @await Html.PartialAsync("ProfileNav")
+        </div>
+        <div class="col s1"></div>
+        <div class="col s7">
+            <img src="~/images/Profile/kitchen-landscape.png" style="max-width:100%;padding:0px;margin:0px;opacity:0.5;" />
+            <div>
+                <table>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.name).ToUpper():</th>
+                        <td class="right-align">@Html.DisplayFor(model => model.name)</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.email).ToUpper():</th>
+                        <td class="right-align">@Html.DisplayFor(model => model.email)</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.userId).ToUpper()</th>
+                        <td class="right-align">@Html.DisplayFor(model => model.userId)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

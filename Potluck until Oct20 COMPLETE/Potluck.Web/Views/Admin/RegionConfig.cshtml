@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Potluck.Web.Models.StateCountry>
+
+@{
+    ViewData["Title"] = "RegionConfig";
+}
+
+<style>
+    .card-panel {
+        border: 2px solid #F42E56;
+    }
+</style>
+<div class="container">
+    <h2 class="Radical-Red-Text center">Region Config</h2>
+
+    
+    <div class="row center">
+        <a class="btn btn-primary Radical-Red white-text" asp-controller="admin" asp-action="ShowCountryConfig">Back to Countries</a>
+        <a class="btn btn-primary Radical-Red white-text" asp-controller="admin" asp-action="ShowRegionCreate" asp-route-country="@Model.ElementAt(0).country">Create new region</a>
+    </div>
+    <table class="table card-panel">
+        <thead>
+            <tr class="Radical-Red-Text">
+                <th>
+                    @Html.DisplayNameFor(model => model.country)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.deliveryFee)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.serviceFee)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.stateCountryId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.stateProvince)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.tax)
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.deliveryFee)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.serviceFee)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.stateCountryId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.stateProvince)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tax)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "ShowRegionDetails", new { regionId = item.stateCountryId }, new { @class = "btn btn-primary Radical-Red white-text right" })
+                </td>
+
+                <td>
+                    @*@Html.ActionLink("Delete", "DeleteRegion", new { regionId = item.stateCountryId }, new { @class = "btn btn-primary Radical-Red white-text right" })*@
+                    <a class = "btn btn-primary Radical-Red white-text right" onclick="DeleteRegion(@item.stateCountryId)" @*asp-action="DeleteRegion" asp-route-regionId="@item.stateCountryId"*@><b>Delete</b></a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    function DeleteRegion(regionId) {
+        //var form = document.getElementById("newCategory");
+        //var newCategory = form.getElementsByTagName("input")[0].value;
+        //window.alert(newCategory.value);
+
+        window.location.href = "/Admin/DeleteRegion?regionId=" + regionId;
+    }
+</script>

@@ -1,0 +1,92 @@
+﻿@model Potluck.Web.Models.PageOfSchedules
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<style>
+    .creater{
+        padding:1vh;
+        height:7vh;
+        border-radius:25px;
+        margin:2vh 1vw 1vh 1vw;
+    }
+    .z-depth-3{
+        margin-top:7vh;
+        padding-top:0;
+    }
+    .dayoWk{
+        padding-left:5vw;
+    }
+    .deets{
+        height:5vh;
+        width:10vw;
+    }
+    .z-depth-1 {
+        border: 5px solid #F42E56;
+    }
+    .btn-default {
+        border: 3px solid #F42E56;
+    }
+</style>
+<div class="container">
+    <h2 class="center Radical-Red-Text"><b>Schedules</b></h2>
+    <a class="btn btn-primary Radical-Red right creater" asp-controller="SellerSchedule" asp-action="ShowScheduleCreate">Create New Schedule</a>
+    <div class="card-panel z-depth-1">
+        @if (!Model.empty)
+        {
+            @foreach (ScheduleDTO schedule in Model.content)
+            {
+                <div class="card-panel z-depth-3">
+                    <h3 class="Radical-Red-Text dayoWk">@schedule.dayOfWeek</h3>
+                    <table>
+                        <tr class="Radical-Red-Text">
+                            <th>
+                                <b> Starting Time</b>
+                            </th>
+                            <th>
+                                Ending Time
+                            </th>
+                            <th>
+                                
+                            </th>
+                            <th>
+                                DELETE
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                @schedule.timeFrom
+                            </td>
+                            <td>
+                                @schedule.timeTo
+                            </td>
+                            <td class="center">
+                                <a class="btn btn-primary Radical-Red deets z-depth-1" asp-controller="SellerSchedule" asp-action="ShowScheduleDetails" 
+                                   asp-route-scheduleId="@schedule.scheduleId" style="border-radius:18px;">Details</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-default white" onclick="DeleteSchedule(@schedule.scheduleId)" style="border-radius:18px;">
+                                    <i class="mall material-icons Radical-Red-Text" style="cursor: pointer;"><b>clear</b></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            }
+        }
+        else
+        {
+            <h3>
+                You currently do not have any schedules!
+            </h3>
+        }
+    </div>
+</div>
+
+<script>
+    function DeleteSchedule(scheduleId) {
+        window.location.href = '/SellerSchedule/DeleteSchedule/?scheduleId=' + scheduleId;
+    }
+</script>

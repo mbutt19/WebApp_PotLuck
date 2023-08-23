@@ -1,0 +1,48 @@
+﻿@model Potluck.Web.Models.CustomDTO
+
+@{
+    ViewData["Title"] = "CustomDelete";
+}
+
+<h2 class="Radical-Red-Text">Custom Delete</h2>
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CustomResponse</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.customId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.customId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.customTitle)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.customTitle)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.customType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.customType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.dateTimeCreated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.dateTimeCreated)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.dateTimeModified)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.dateTimeModified)
+        </dd>
+    </dl>   
+    <form asp-action="CustomDelete">
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

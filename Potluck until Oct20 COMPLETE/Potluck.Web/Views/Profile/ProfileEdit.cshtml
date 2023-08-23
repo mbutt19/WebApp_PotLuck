@@ -1,0 +1,66 @@
+﻿@model Potluck.Web.Models.UserDTO
+
+@{
+    ViewData["Title"] = "ProfileEdit";
+}
+
+    <style>
+        label {
+            margin: 2.5vh 31vw;
+        }
+    </style>
+<div class="container">
+    <div class="row card-panel">
+        <div class="col s4">
+            @await Html.PartialAsync("ProfileImage")
+            @await Html.PartialAsync("ProfileNav")
+        </div>
+        <div class="col s1"></div>
+        <div class="col s7">
+            <img src="~/images/Profile/kitchen-landscape.png" style="max-width:100%;padding:0px;margin:0px;opacity:0.5;" />
+            <div>
+                <form asp-controller="Profile" asp-action="EditUser" id="ProfileEditForm">
+                    <div class="form-group row">
+                        <br />
+                        <input id="picture" asp-for="imageUrl" class="form-control" hidden />
+                        <input type="file" onchange="handleImageFile(readResult)"><br>
+                        <span asp-validation-for="imageUrl" class="text-danger"></span>
+                        @if (Model.imageUrl != null)
+                        {
+                            <img id="imagePreview" src="@Model.imageUrl" height="200" alt="Image preview...">
+                        }
+                        else
+                        {
+                            <img id="imagePreview" src="~/images/no-camera.png" height="200" alt="Image preview...">
+                        }
+                    </div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div style="border-radius:25px" class="input-field col s12 card">
+                            <label asp-for="name" class="control-label">Name</label>
+                            <input asp-for="name" class="form-control" style="border-bottom:none;" />
+                            <span asp-validation-for="name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div style="border-radius:25px" class="input-field col s12 card">
+                            <label asp-for="email" class="control-label">Email</label>
+                            <input asp-for="email" class="form-control" style="border-bottom:none;" />
+                            <span asp-validation-for="email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div style="border-radius:25px" class="input-field col s12 card">
+                            <label asp-for="telephone" class="control-label">Telephone</label>
+                            <input asp-for="telephone" class="form-control" style="border-bottom:none;" />
+                            <span asp-validation-for="telephone" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <a style="border-radius:25px;background-color:#F42E56;" class="btn waves-effect waves-light col s12" onclick="document.getElementById('ProfileEditForm').submit();return false;">Save Changes</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

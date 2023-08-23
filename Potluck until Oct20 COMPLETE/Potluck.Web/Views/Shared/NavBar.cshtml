@@ -1,0 +1,156 @@
+﻿@{
+    ViewData["Title"] = "NavBar";
+
+    string currentRole = "";
+    string searchVal = "";
+
+    if (ViewBag.CurrentRole == null)
+    {
+        currentRole = "ROLE_GUEST";
+    }
+    else
+    {
+        currentRole = ViewBag.CurrentRole;
+    }
+
+    if (ViewBag.Searched != null)
+    {
+        searchVal = ViewBag.Searched;
+    }
+
+}
+
+
+<nav style="background-color:#F42E56; width:100%;height:9vh;">
+    <div class="nav-wrapper">
+        <a asp-controller="Home" asp-action="Index"><img src="~/images/Logos/whitonpink.jpg" style="height:9vh;padding:0;margin:0;" /></a>
+        <a href="#" data-target="hamburger-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+
+            @if (currentRole == "ROLE_USER")
+            {
+                <li>
+                    <form id="SearchBar" asp-controller="BuyerItem" asp-action="ShowSearch">
+                        <b><input type="text" name="searchVal" class="form-control searchVal" value="@searchVal" style="background-color:white;border-radius:25px;height:35px;text-align:center;border-bottom:none" /></b>
+                    </form>
+                </li>
+                <li><a onclick="submitSearch()"><i class="large material-icons">search</i></a></li>
+                <li><a asp-controller="Profile" asp-action="ShowDiscover">Discover</a></li>
+                <li><a asp-controller="Profile" asp-action="ShowFavorites">Favourites</a></li>
+            }
+            <li><a class="modal-trigger" href="#chatmodal"><i class="large material-icons">chat_bubble</i></a></li>
+
+            @if (currentRole == "ROLE_USER")
+            {
+                <li><a asp-controller="Home" asp-action="Login"><i class="large material-icons">account_circle</i></a></li>
+                <li><a asp-controller="BuyerOrder" asp-action="GetPageOfOrders"><i class="small material-icons right">shopping_cart</i></a></li>
+            }
+            else if (currentRole == "ROLE_SELLER")
+            {
+                <li><a asp-controller="Home" asp-action="Login"><i class="large material-icons">account_circle</i></a></li>
+                <li><a asp-controller="SellerOrder" asp-action="Index"><i class="small material-icons right">attach_money</i></a></li>
+            }
+            else if (currentRole == "ROLE_ADMIN")
+            {
+                <li><a asp-controller="Home" asp-action="Login"><i class="large material-icons">account_circle</i></a></li>
+            }
+            else
+            {
+                <li><a asp-controller="Home" asp-action="Login"><i class="large material-icons">account_circle</i></a></li>
+            }
+        </ul>
+    </div>
+</nav>
+<ul class="sidenav" id="hamburger-menu">
+    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li><a class="modal-trigger" href="#chatmodal">Chat<i class="small material-icons right Radical-Red-Text">chat_bubble</i></a></li>
+    <li>
+        <a class="Radical-Red-Text" onclick="submitSearch()"><i class="material-icons right Radical-Red-Text">search</i>Search</a>
+        <form id="SearchBar" asp-controller="BuyerItem" asp-action="ShowSearch"  style="width:92%;margin:0 auto;">
+            <b><input type="text" name="searchVal" class="form-control searchVal" value="@searchVal" style="border-radius:25px;text-align:center;border: 2px solid #F42E56;" /></b>
+        </form>
+    </li>
+    @*<li><a asp-controller="Recipe" asp-action="Search">Search<i class="small material-icons right">search</i></a></li>*@
+    <li><a class="Radical-Red-Text" asp-controller="Home" asp-action="Login">Profile<i class="small material-icons right">account_circle</i></a></li>
+    @if (currentRole == "ROLE_USER")
+    {
+        <li><a asp-controller="BuyerOrder" asp-action="GetPageOfOrders">Orders<i class="material-icons right">shopping_cart</i></a></li>
+    }
+    else if (currentRole == "ROLE_SELLER")
+    {
+        <li><a asp-controller="SellerOrder" asp-action="Index">Orders<i class="material-icons right">attach_money</i></a></li>
+    }
+    else if (currentRole == "ROLE_ADMIN")
+    {
+        <li><a asp-controller="Home" asp-action="Login">Account<i class="large material-icons right">account_circle</i></a></li>
+    }
+    else
+    {
+        <li><a asp-controller="Home" asp-action="Login">Account<i class="large material-icons right">account_circle</i></a></li>
+    }
+
+</ul>
+
+<div id="chatmodal" class="modal">
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .modal {
+            max-height: 80%;
+            min-height: 80%;
+            max-width: 70%;
+            min-width: 70%;
+            padding: 0 10px 0 200px;
+            overflow: auto;
+            background-color: white;
+        }
+
+        .modal-content {
+            padding: 20vh;
+            text-align: center;
+            background-color: floralwhite;
+            border: 1px solid black;
+        }
+
+        .modal-header {
+            padding: 2vh;
+            background-color: white;
+            color: white;
+            font-weight: bold;
+            margin:1vh 1vw;
+        }
+    </style>
+    <div class="modal-header">
+        <input class="center-align" type="text" id="MessageField" placeholder="type message and press enter" />
+    </div>
+    <div class="modal-content">
+        <div class="msg">
+            <div id="msgs"></div>
+        </div>
+    </div>
+    <div class="modal-footer" style="position:absolute;left:0; top:0; background-color:white;width:15.4vw;height:50vh;">
+        <img class="left-align" src="~/images/logo_small.png" style="float:left;height:21vh;width:15vw" />
+    </div>
+</div>
+
+<script>
+    function submitSearch() {
+        var date = new Date();
+        var hours = String(date.getHours());
+        var minutes = String(date.getMinutes());
+
+        if (minutes.length == 1) {
+            minutes = "0" + minutes;
+        }
+
+        var time = hours + ":" + minutes;
+
+        var searchVal = document.getElementById("SearchBar").getElementsByTagName("input")[0].value;
+
+        window.location.href = "/BuyerItem/ShowSearch?searchVal=" + searchVal + "&time=" + time;
+    }
+</script>

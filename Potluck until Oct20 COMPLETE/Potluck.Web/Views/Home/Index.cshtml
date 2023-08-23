@@ -1,0 +1,183 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@section AddToHead{
+    <link rel="stylesheet" href="~/css/HomeStyle.css" />
+}
+
+<style>
+    .s3 input, #country, #city, #state {
+        text-align: center;
+        border-bottom: none;
+    }
+    menuBtn {
+        margin-top: 0;
+    }
+    #background-image {
+        position: absolute;
+        left: 0;
+        right: 0;
+        min-height: 90vh;
+        z-index: -1;
+        filter: opacity(20%);
+        background-image: url("../images/Home/table.jpeg");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border-radius: 0 0 50% 50%;
+    }
+    #coupon-section {
+        display: block;
+        text-align: center;
+        padding: 30vh 0;
+        margin-bottom: 40vh;
+        margin-top:0;
+    }
+        #coupon-section p.subtitle {
+            display: inline-block;
+            width: 50vw;
+            line-height: 2rem;
+            font-style: italic;
+        }
+    #coupon-text {
+        padding: var(--main-padding);
+    }
+        #coupon-text > h1 {
+            color: #F42E56;
+            padding-top: 2vh;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+        }
+</style>
+
+<div class="container">
+    <div class="row" id="fpImpression">
+        <div class="col s6">
+            <div class="VertPad">
+                <h4 style="font-weight:bold;">
+                    Your favourite food delivered hot & fresh
+                </h4>
+                <p>
+                    Satisfy your cravings by getting the food you love from your favourite restaurants delivered fast.
+                </p>
+            </div>
+            <form id="MenuSearch" asp-controller="Recipe" asp-action="Search">
+                <div class="VertPad">
+                    <div class="row">
+                        <div style="border-radius:25px" class="input-field col s3 card">
+                            <input id="country" type="text" class="validate" placeholder="Country">
+                        </div>
+                        <div class="col s1"></div>
+                        <div style="border-radius:25px" class="input-field col s3 card">
+                            <input id="city" type="text" class="validate" placeholder="City">
+                        </div>
+                        <div class="col s1"></div>
+                        <div style="border-radius:25px" class="input-field col s3 card">
+                            <input id="state" type="text" class="validate" placeholder="State">
+                        </div>
+                    </div>
+                </div>
+                <div class="menuBtn">
+                    <div class="row">
+                        <div class="col s5">
+                            <a style="border-radius:25px;" class="btn waves-effect waves-radical-red col s12 Radical-Red" onclick="document.getElementById('MenuSearch').submit();return false;">Get Menu</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col s6  responsive-img" style="margin-bottom:0">
+            <div class="responsive-img">
+                <img class="responsive-img" style="max-width:48vw" src="~/images/Home/food-combined.png" />
+            </div>
+        </div>
+    </div>
+    <!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+    <div class="row" id="fpCardRow" style="margin-top:0">
+        <div class="col s3 card-panel hoverable" style="min-height:28rem" id="fpCard">
+            <div class="col s2 center-align valign-wrapper" style="width:32px;height:32px;border-radius:50%;color:white;background-color:#F42E56">
+                1
+            </div>
+            <div class="col s10">
+                <div class="row">
+                    <img style="max-width:100%" src="~/images/Home/online-store.png" />
+                </div>
+                <div class="row">
+                    <h6 style="font-weight:bold;">Discover Local Home Cooked Meals Near You</h6>
+                </div>
+                <div class="row">
+                    We make it simple to find a home cooke meal you crave. Enter your address and let us do the rest.
+                </div>
+            </div>
+        </div>
+        <div class="col s1"></div>
+        <div class="col s3 card-panel hoverable" style="min-height:28rem" id="fpCard">
+            <div class="col s2 center-align valign-wrapper" style="width:32px;height:32px; border-radius:50%;color:white;background-color:#F42E56">
+                2
+            </div>
+            <div class="col s10">
+                <div class="row">
+                    <img style="max-width:100%" src="~/images/Home/choose.png" />
+                </div>
+                <div class="row">
+                    <h6 style="font-weight:bold;">Choose A Tasty Dish</h6>
+                </div>
+                <div class="row">
+                    When you order on pot-luck.co we will hook you up with tastiest hoom cooked meals in your local neighbourhood.
+                </div>
+            </div>
+        </div>
+        <div class="col s1"></div>
+        <div class="col s3 card-panel hoverable" style="min-height:28rem" id="fpCard">
+            <div class="col s2 center-align valign-wrapper" style="width:32px;height:32px; border-radius:50%;color:white;background-color:#F42E56">
+                3
+            </div>
+            <div class="col s10">
+                <div class="row">
+                    <img style="max-width:13vw;min-height:33vh;" src="~/images/Home/deliverPic.png" />
+                </div>
+                <div class="row">
+                    <h6 style="font-weight:bold;">Track Your Delivery</h6>
+                </div>
+                <div class="row">
+                    We make food ordering fast and simple no matter where you are on the planet.
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+    <div class="row valign-wrapper" style="margin-top:150px">
+        <div class="col s6">
+            <div>
+                <img style="max-width:100%" src="~/images/Home/food-4.png" />
+            </div>
+        </div>
+        <div class="col s6">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus semper finibus congue. Pellentesque quis neque id nisi aliquet sollicitudin. Vivamus eget sem bibendum, hendrerit ipsum eu, venenatis eros. Donec vulputate eget mi ac tempus. Vivamus ut purus a odio venenatis convallis ac at arcu. In non tellus vel massa sodales imperdiet at ut tellus. Vivamus pretium venenatis est, at varius dui feugiat quis. Donec sit amet accumsan nisl. Donec laoreet ex dui, et finibus tellus accumsan sit amet. Vivamus elementum accumsan nunc eu eleifend. Vivamus iaculis at purus at mollis. Fusce velit urna, ultricies in condimentum et, pharetra non velit.
+        </div>
+    </div>
+</div>
+<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+<div class="card-content" id="coupon-section">
+    <div id="background-image"></div>
+
+    <div id="coupon-text">
+        <h1>Get Your Coupon Now</h1>
+        <p class="subtitle grey-text">Satisfy your cravings by getting a home cooked meal you love delivered to you fast. MIFOOD is now available in selected areas of London. We are expanding quickly, so stay tuned for more areas soon!</p>
+        <section class="form-container">
+            <div class="row">
+                <div class="col s1"></div>
+                <div style="border-radius:25px;height:40px;margin:2vh 2vh;" class="input-field col s3 card">
+                    <input id="country" type="text" class="validate" placeholder="Your Email">
+                </div>
+                <div style="border-radius:25px;height:40px;margin:2vh 2vh;" class="input-field col s3 card">
+                    <input id="country" type="text" class="validate" placeholder="Your Email">
+                </div>
+                <div style="border-radius:25px;height:40px;margin:2vh 2vh;" class="col s3 btn waves-effect waves-radical-red Radical-Red">
+                    <a href="#" class="white-text">Subscribe Now</a>
+                </div>
+                <div class="col s1"></div>
+            </div>
+        </section>
+    </div>
+</div>

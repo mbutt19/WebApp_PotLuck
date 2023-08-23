@@ -1,0 +1,69 @@
+﻿@model Potluck.Web.Models.StateCountry
+
+@{
+    ViewData["Title"] = "RegionUpdate";
+}
+
+
+<style>
+    .container {
+        width: 80vw;
+        margin: 1vh auto;
+        border: 3px solid #F42E56;
+    }
+
+    .btn-primary {
+        margin: 1vh 1vw;
+    }
+</style>
+
+<h2 class="Radical-Red-Text center">Region Update</h2>
+<div class="container card-panel">
+    <div class="col-md-4">
+        <form asp-action="UpdateRegion">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="country" class="control-label"></label>
+                <input asp-for="country" class="form-control" />
+                <span asp-validation-for="country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="deliveryFee" class="control-label"></label>
+                <input asp-for="deliveryFee" class="form-control" />
+                <span asp-validation-for="deliveryFee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="serviceFee" class="control-label"></label>
+                <input asp-for="serviceFee" class="form-control" />
+                <span asp-validation-for="serviceFee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="stateCountryId" class="control-label"></label>
+                <input asp-for="stateCountryId" class="form-control" />
+                <span asp-validation-for="stateCountryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="stateProvince" class="control-label"></label>
+                <input asp-for="stateProvince" class="form-control" />
+                <span asp-validation-for="stateProvince" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="tax" class="control-label"></label>
+                <input asp-for="tax" class="form-control" />
+                <span asp-validation-for="tax" class="text-danger"></span>
+            </div>
+            <div class="form-group row center">
+                <input type="submit" value="Update" class="btn btn-primary Radical-Red white-text" />
+                <a class="btn btn-primary Radical-Red white-text" asp-action="ShowRegionConfig">Back to List</a>
+            </div>
+            @*<div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>*@
+        </form>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

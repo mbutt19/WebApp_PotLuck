@@ -1,0 +1,58 @@
+﻿@model Potluck.Web.Models.CustomVO
+
+@{
+    ViewData["Title"] = "CustomCreate";
+}
+
+<style>
+    .btn {
+        border-radius: 25px;
+        width: 16vw;
+        margin: 0 4vw 2vh 1vw;
+        margin-top:8vh;
+    }
+    .z-depth-5{
+        margin-bottom:10vh;
+    }
+    h5 {
+        margin-bottom: 4vh;
+        color: #F42E56;
+    }
+</style>
+
+    <div class="container">
+        <h3 style="font-size:3rem;font-family:Arial, Helvetica, sans-serif;font-weight:bold;font-size:2.85rem;margin:70px 0 50px 0;padding-left:3vw;color: #F42E56;">Create a Custom Combo</h3>
+        <div class="card-panel z-depth-5 ">
+            <h5 class="center"><b>Combo Setup</b></h5>
+            <div class="col-md-4">
+                <form asp-action="CreateCustom" class="form-horizontal">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <table>
+                        <tr>
+                            <th><label asp-for="customTitle" class="control-label">Custom Combo Title</label></th>
+                            <td>
+                                <input asp-for="customTitle" class="form-control" />
+                                <span asp-validation-for="customTitle" class="text-danger"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><label asp-for="customType" class="control-label">Custom Combo Type</label></th>
+                            <td>
+                                <select asp-for="customType">
+                                    <option value="SELECT_ONE">Select One (Can choose only one item)</option>
+                                    <option value="SELECT_MULTI">Select Multiple (Can choose more than one item)</option>
+                                </select>
+                                <span asp-validation-for="customType" class="text-danger"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="container form-group">
+                        <input type="submit" value="Create" class="btn btn-default Radical-Red" />
+                        <a class="btn btn-default Radical-Red" asp-action="ShowAllCustoms">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+       
+   

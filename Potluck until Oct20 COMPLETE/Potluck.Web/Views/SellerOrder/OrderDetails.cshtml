@@ -1,0 +1,76 @@
+﻿@model Potluck.Web.Models.OrderDTO
+
+@{
+    ViewData["Title"] = "OrderDetails";
+}
+
+<style>
+    .table th {
+        width: 30%;
+    }
+
+    .btns {
+        margin: 0 auto;
+        width: 70%;
+    }
+</style>
+
+<div class="container">
+    <h3 style="font-family:Arial, Helvetica, sans-serif;font-weight:bold;font-size:2.85rem;margin:70px 0 50px 0;padding-left:3vw;">Item Details</h3>
+    <div class="row card-panel z-depth-5">
+        <div class="row center-align">
+            <div>
+                <h4>Order Response</h4>
+                <hr />
+                <table>
+                    <tr>
+                        <th class="Radical-Red-Text"><b>Order Date</b></th>
+                        <td>@Html.DisplayFor(model => model.dateTimeCreated)</td>
+                        <th class="Radical-Red-Text"><b>Order ID</b></th>
+                        <td>@Html.DisplayFor(model => model.orderId)</td>
+                    </tr>
+                    <tr>
+                        <th class="Radical-Red-Text"><b>Order Status</b></th>
+                        <td>@Html.DisplayFor(model => model.orderStatus)</td>
+                        <th class="Radical-Red-Text"><b>Delivery Type</b></th>
+                        <td>
+                            @Model.deliveryType
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            @foreach (OrdersItemDTO ordersItem in Model.ordersItems)
+            {
+                <div class="row card-panel z-depth-1">
+                    <table class="table">
+                        <tr class="Radical-Red white-text">
+                            <th style="border-radius:0;"> @ordersItem.item.name.ToUpper()</th>
+                            <th style="border-radius:0;">@ordersItem.item.price.ToString("C")</th>
+                            <th style="border-radius:0;" class="right-align">x @ordersItem.quantity</th>
+                        </tr>
+                        <tr>
+                            <td class="Radical-Red-Text" style="padding-left:5vw;"><i>Description:</i></td>
+                            <td class="grey-text lighten-1" colspan="2">@ordersItem.item.description</td>
+                        </tr>
+                    </table>
+                </div>
+            }
+        </div>
+        <div class="row btns">
+            @if (Model.orderStatus == "OPENED")
+            {
+                <div class="container center">
+                    @*<a style="border-radius:25px;background-color:#F42E56;height:8vh;margin:6vh 2vw;padding-top:1vh;width:10vw;" class="btn waves-effect waves-light col s3 hoverable" asp-action="ShowCheckout" asp-route-orderId="@Model.orderId">Checkout  <i class="small material-icons" style="padding-left: 1vw;">shopping_cart</i></a>*@
+                    <a style="border-radius:25px;background-color:#F42E56;height:8vh;margin:6vh 2vw;padding-top:1vh;width:20vw;" class="btn waves-effect waves-light col s3 hoverable" asp-action="ShowAllOrders" asp-route-status="@ViewBag.OrderStatus">Back To List</a>
+                </div>
+            }
+            else
+            {
+                <div class="container center">
+                    <a style="border-radius:25px;background-color:#F42E56;height:8vh;margin:6vh 2vw;padding-top:1vh;width:20vw;" class="btn waves-effect waves-light col s3 hoverable" asp-action="ShowAllOrdersOfStatus" asp-route-status="@Model.orderStatus">Back To List</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

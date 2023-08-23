@@ -1,0 +1,85 @@
+﻿@model Potluck.Web.Models.OrderDTO
+
+@section AddToHead{
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPJpjD-qcR_yIxJnS8maR5W9KB0E3EzYI&callback=initMap&libraries=&v=weekly"
+            defer></script>
+    <style>
+        /* Always set the map height explicitly to define the size of the div element that contains the map. */
+        #map {
+            height: 100%;
+        }
+    </style>
+}
+<div class="row contents">
+    <div class="col s1"></div>
+    <div class="col s6" style="height:80vh;margin-top:7vh;">
+        <div id="map"></div>
+    </div>
+    <div class="col s1"></div>
+    <div class="col s3 card-panel z-depth-3" style="margin-top:7vh;">
+        <div class="row">
+            <h4 class="center-align Radical-Red-Text">Order Details</h4>
+            <hr class="Radical-Red"/>
+            <div class="col s11 push-s1 center-align profile">
+                @await Html.PartialAsync("../Profile/MiniProfile", Model.seller)
+            </div>
+            <div class="col s10 push-s1 receipt">
+                @await Html.PartialAsync("CheckoutReceipt", Model.ordersItems)
+                <div class="row money">
+                    <div class="col s7 grey-text">
+                        Sub-Total:
+                    </div>
+                    <div class="col s4 push-s1 grey-text">
+                        @Model.subTotal.ToString("C")
+                    </div>
+                    <div class="col s7 grey-text">
+                        Service Fees:
+                    </div>
+                    <div class="col s4 push-s1 grey-text">
+                        @Model.serviceFee.ToString("C")
+                    </div>
+                    <div class="col s7 grey-text">
+                        Taxes:
+                    </div>
+                    <div class="col s4 push-s1 grey-text">
+                        @Model.tax.ToString("C")
+                    </div>
+                    <div class="col s12 grey-text" style="border-bottom:1px groove #d3d3d3"></div>
+                    <div class="col s7">
+                        <b>Total:</b>
+                    </div>
+                    <div class="col s4 push-s1">
+                        <b>@Model.total.ToString("C")</b>
+                    </div>
+                </div>
+
+                <div class="col s12 payPal" style="margin:0;padding:0;">
+                    @await Html.PartialAsync("CheckoutPayPal", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col s1"></div>
+</div>
+
+<script>
+    function initMap() {
+        // The location of toronto
+        var toronto = { lat: 43.729, lng: -79.448 };
+        // The map, centered at toronto
+        var map = new google.maps.Map(
+            document.getElementById('map'), { zoom: 15, center: toronto });
+        // The marker, positioned at toronto
+        var marker = new google.maps.Marker({ position: toronto, map: map });
+        var cityCircle = new google.maps.Circle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            map: map,
+            center: toronto,
+            radius: 1000
+        });
+    }
+</script>

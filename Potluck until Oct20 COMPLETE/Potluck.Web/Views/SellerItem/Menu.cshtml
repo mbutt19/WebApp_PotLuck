@@ -1,0 +1,195 @@
+﻿@model Potluck.Web.Models.PageOfItems
+
+@{
+    ViewData["Title"] = "Menu";
+}
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .btnStyle1 {
+        border-radius: 50px;
+        height: 60px;
+        padding: 10px;
+        width: 150px;
+        color: #F42E56;
+        background-color: white;
+        margin: 0 10px;
+    }
+
+        .btnStyle1 .waves-light {
+            background-color: #F42E56;
+            
+        }
+
+    #menuFilter {
+        margin-bottom: 50px;
+    }
+
+    .priceShow {
+        padding-top: 2vh;
+    }
+
+    .switch label input[type=checkbox]:checked + .lever:after {
+        background-color: #F42E56;
+    }
+
+    .deets {
+        min-height: 25vh;
+        max-height: 25vh;
+    }
+
+    .pix {
+        min-height:18vh;
+        margin:.5vh 0;
+    }
+
+    .hoverable {      
+        margin: 4vh 3vw;
+        min-height: 50vh;
+    }
+    .pagination {
+        margin: 5vh 3vw;
+    }
+    .adder {
+        border: 13px solid #F42E56;
+    }
+    .itemCard {
+        border: 2px solid #F42E56;
+    }
+</style>
+
+<h3 class="center" style="font-size:3rem;font-family:Arial, Helvetica, sans-serif;font-weight:bold;font-size:2.85rem;margin:70px 10vw 50px 8vw;color: #F42E56;">My Menu</h3>
+<div class="row">
+    <a asp-controller="SellerItem" asp-action="ShowItemCreate">
+        <div class="col s3 card-panel itemCard z-depth-5 hoverable adder" style="margin-left:5vw;padding-top:10vh;padding-bottom:5vh;border-radius:50px;margin-top:7vh;">
+            <div class="row center-align">
+                <i class="small material-icons Radical-Red-Text"><b>add_circle_outline</b></i>
+            </div>
+            <div class="row center-align Radical-Red-Text">
+                <b>Add Item</b>
+            </div>
+        </div>
+    </a>
+    @foreach (var item in Model.content)
+    {
+        <a asp-controller="SellerItem" asp-action="ShowItemDetails" asp-route-itemId="@item.itemId">
+            <div class="col s3 card-panel itemCard z-depth-5 hoverable" style=" margin-left: 5vw;">
+
+                <div class="row center-align pix">
+                    <!--Image-->
+                    @if (item.imageUrl == null)
+                    {
+                        <img src="~/images/no-camera.png" style="height:85%;width:85%;margin:auto;max-width:90%;max-height:18vh;min-height:18vh;margin-top:1vh;zoom:1.5;overflow:hidden" />
+                    }
+                    else
+                    {
+                        <img src="@item.imageUrl" style="height:85%;width:85%;margin:auto;max-width:90%;max-height:18vh;min-height:18vh;margin-top:1vh;zoom:1.5;overflow:hidden" />
+                    }
+                </div>
+
+                <div class="row deets">
+                    <div class="col s8 push-s1">
+                        <div class="row" style="color:black;padding-left:7px;margin-top:2vh;">
+                            <!--Name-->
+                            <h6 style="font-weight:500;font-size:large;margin-top:0" ;>@item.name</h6>
+                            <!--Description-->
+                            @if (item.description.Length > 54)
+                            {
+                                <p class="grey-text lighten-3" style="font-size:small">@item.description.Substring(0, 54)...</p>
+                            }
+                            else
+                            {
+                                <p class="grey-text lighten-3" style="font-size:small">@item.description</p>
+                            }
+                            <!--Price-->
+                            <p class="Radical-Red-Text"><b>$@Html.DisplayFor(modelItem => item.price)</b></p>
+                        </div>
+                    </div>
+                    <div class="col s3 waves-button-input">
+                        <!--Enable Indicator-->
+                        @if (item.enable)
+                        {
+                            <div class="switch"><label><input id="@item.itemId" checked type="checkbox" onchange="ItemEnableSwitch()"><span class="lever"></span></label></div>
+                        }
+                        else
+                        {
+                            <div class="switch"><label><input id="@item.itemId" type="checkbox" onchange="ItemEnableSwitch()"><span class="lever"></span></label></div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </a>
+    }
+</div>
+@if (Model.first && Model.last)
+{
+    <ul class="pagination">
+        <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_left</i></a></li>
+        <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-pageNumber="0">1</a></li>
+        <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_right</i></a></li>
+    </ul>
+}
+else if (Model.first)
+{
+<ul class="pagination">
+    <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_left</i></a></li>
+    @for (int i = 0; i < Model.totalPages; i++)
+    {
+        @if (i == Model.pageable.pageNumber)
+        {
+            <li><a style="color:#F42E56;" asp-action="ShowMenuPageByNumber" asp-route-pageNumber="@i">@(i+1)</a></li>
+        }
+        else
+        {
+            <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-pageNumber="@i">@(i+1)</a></li>
+        }
+    }
+    <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-pageNumber="@(Model.pageable.pageNumber+1)"><i class="material-icons">chevron_right</i></a></li>
+</ul>
+}
+else if (Model.last)
+{
+<ul class="pagination">
+    <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-pageNumber="@(Model.pageable.pageNumber-1)"><i class="material-icons">chevron_left</i></a></li>
+    @for (int i = 0; i < Model.totalPages; i++)
+    {
+        @if (i == Model.pageable.pageNumber)
+        {
+            <li><a style="color:#F42E56;" asp-action="ShowMenuPageByNumber" asp-route-pageNumber="@i">@(i+1)</a></li>
+        }
+        else
+        {
+            <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-pageNumber="@i">@(i+1)</a></li>
+        }
+    }
+    <li class="disabled"><a href="#!"><i class="material-icons Radical-Red-Text">chevron_right</i></a></li>
+</ul>
+}
+else if(!Model.first && !Model.last)
+{
+<ul class="pagination">
+    <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-pageNumber="@(Model.pageable.pageNumber-1)"><i class="material-icons">chevron_left</i></a></li>
+    @for (int i = 0; i < Model.totalPages; i++)
+    {
+        @if (i == Model.pageable.pageNumber)
+        {
+            <li><a style="color:#F42E56;" asp-action="ShowMenuPageByNumber" asp-route-pageNumber="@i">@(i+1)</a></li>
+        }
+        else
+        {
+            <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-pageNumber="@i">@(i+1)</a></li>
+        }
+    }
+    <li class="active"><a asp-action="ShowMenuPageByNumber" asp-route-pageNumber="@(Model.pageable.pageNumber+1)"><i class="material-icons">chevron_right</i></a></li>
+</ul>
+}
+
+<script>
+    function ItemEnableSwitch() {
+        var inputElement = event.target;
+        PostRequest(url = '/SellerItem/ToggleEnable/', params = 'itemId=' + inputElement.id)
+    }
+</script>

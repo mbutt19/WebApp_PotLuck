@@ -1,0 +1,90 @@
+﻿@model Potluck.Web.Models.ItemDTO
+
+@{
+    ViewData["Title"] = "ItemDelete";
+}
+
+    <style>
+        td {
+            text-align: center;
+        }
+        .z-depth-5 {
+            margin: 10vh 12vw;
+        }
+        table{
+            margin:1vh 2vw 4vh .3vw;
+        }
+        .btns{
+            margin-left:3vw;
+        }
+    </style>
+
+    <div class="container">
+        <h3 class="center Radical-Red-Text" style="font-family:Arial, Helvetica, sans-serif;font-weight:bold;font-size:2.85rem;margin:70px 0 50px 0;padding-left:3vw;">Delete Item</h3>
+        <div class="row card-panel z-depth-5">
+            <h5 class="Radical-Red-Text" style="font-family:Arial, Helvetica, sans-serif;font-weight:bold;font-size:2rem;margin:20px 0 50px 0;text-align:center;">Are you sure you want to delete @Html.DisplayFor(model => model.name)?</h5>
+            <div class="row center-align">
+                <!--Image Goes Here-->
+                @if (Model.imageUrl == null)
+                {
+                    <img src="~/images/no-camera.png" style="max-height:23vh;min-height:15vh;zoom:2;" />
+                }
+                else
+                {
+                    <img class="responsive-img" src="@Model.imageUrl" style="max-height:23vh;min-height:15vh;zoom:2;width:80%;margin:auto;" />
+                }
+            </div>
+            <table>
+                <tr>
+                    <th><b>Name :</b></th>
+                    <td>@Html.DisplayFor(model => model.name)</td>
+                </tr>
+                <tr>
+                    <th><b>Item ID :</b></th>
+                    <td>@Html.DisplayFor(model => model.itemId)</td>
+                </tr>
+                <tr>
+                    <th><b>Calories :</b></th>
+                    <td>@Html.DisplayFor(model => model.calories)</td>
+                </tr>
+                <tr>
+                    <th><b>Price :</b></th>
+                    <td>$@Html.DisplayFor(model => model.price)</td>
+                </tr>
+                <tr>
+                    <th><b>Description :</b></th>
+                    <td>@Html.DisplayFor(model => model.description)</td>
+                </tr>
+                <tr>
+                    <th><b>Enabled :</b></th>
+                    @if (Model.enable)
+                    {
+                        <td><i class="small material-icons">check</i></td>
+                    }
+                    else
+                    {
+                        <td><i class="small material-icons">close</i></td>
+                    }
+                </tr>
+                <tr>
+                    <th><b>Sold Alone :</b></th>
+                    @if (Model.soldAlone)
+                    {
+                        <td><i class="small material-icons">check</i></td>
+                    }
+                    else
+                    {
+                        <td><i class="small material-icons">close</i></td>
+                    }
+                </tr>
+            </table>
+            <div class="row btns">
+                <form asp-action="DeleteItem" asp-route-itemId="@Model.itemId">
+                    <button type="submit" value="Delete" style="border-radius:25px;background-color:#F42E56;height:8vh;margin:10vh 2vw;padding-top:.3vh;width:15vw;" class="btn waves-effect waves-light col s6 hoverable white-text">Delete</button>
+                    <a asp-action="Index" style="border-radius:25px;background-color:#F42E56;height:8vh;margin:10vh 1.5vw;padding-top:1.3vh;padding-right:0;width:15vw;" class="btn waves-effect waves-light col s6 hoverable">Back to List</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+

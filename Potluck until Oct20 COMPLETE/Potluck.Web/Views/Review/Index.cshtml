@@ -1,0 +1,52 @@
+﻿@model Potluck.Web.Models.PageOfReviews
+
+@{
+    ViewData["Title"] = "Index";
+    UserDTO seller = ViewBag.seller;
+}
+
+
+
+
+<div class="container">
+    <h4>Reviews for @seller.name</h4>
+    @Html.Partial("~/Views/Profile/MiniProfile.cshtml", seller);
+
+    @if (Model != null && !Model.empty)
+    {
+
+        <hr />
+        @foreach (ReviewDTO review in Model.content)
+        {
+            int emptyStars = 5 - review.stars;
+            string starString = "";
+
+            for (int i = 0; i < review.stars; i++)
+            {
+                starString += "★";
+            }
+            for (int i = 0; i < emptyStars; i++)
+            {
+                starString += "☆";
+            }
+
+            <div class="row">
+                Reviewed by: @review.buyer
+            </div>
+            <div class="row">
+                @review.message
+            </div>
+            <div class="row">
+                Rating: @starString
+            </div>
+        }
+        <div class="row">
+            <a style="border-radius:25px;background-color:#F42E56;height:8vh;margin:6vh 2vw;padding-top:1vh;width:13vw;" class="btn waves-effect waves-light col s3 hoverable" asp-controller="BuyerItem" asp-action="ShowMenu" asp-route-userId="@Model.content.FirstOrDefault().seller.userId">Show User Menu</a>
+        </div>
+    }
+    else
+    {
+        <h4>There are no reviews for this user!</h4>
+    }
+</div>
+
